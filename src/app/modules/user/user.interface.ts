@@ -11,7 +11,7 @@ export interface TUser {
     address: string,
     createdAt: Date,
     updatedAt: Date,
-    role: 'admin' | 'user'
+    role: 'ADMIN' | 'USER'
 };
 
 export interface UserModel extends Model<TUser> {

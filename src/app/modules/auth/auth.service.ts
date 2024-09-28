@@ -19,7 +19,10 @@ const loginUser = async (payload: TLoginUser) => {
 
     const jwtPayload = {
         email: user.email,
-        role: user.role
+        role: user.role,
+        name: user.name,
+        address: user.address,
+        profilePhoto : user.profilePhoto,
     }
 
     const accessToken = createToken(jwtPayload, config.jwtAccessSecret as string, config.JWT_ACCESS_EXPIRES_IN as string)
