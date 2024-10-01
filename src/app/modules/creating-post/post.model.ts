@@ -1,14 +1,15 @@
 import { model, Schema } from "mongoose";
 import { TPost } from "./post.interface";
+import { commentSchema } from "../comment/comment.model";
 
 
 const postSchema = new Schema<TPost>(
     {
-        postId: {
+        userEmail: {
             type: String,
             required: true
         },
-        userEmail: {
+        category: {
             type: String,
             required: true
         },
@@ -23,7 +24,21 @@ const postSchema = new Schema<TPost>(
         photo: {
             type: String,
             required: true
-        }
+        },
+        userName: {
+            type: String,
+            required: true
+        },
+        userId: {
+            type: String,
+            required: true
+        },
+        userProfilePhoto: {
+            type: String,
+            required: true
+        },
+        comments: [commentSchema]
+
     },
     {
         timestamps: true

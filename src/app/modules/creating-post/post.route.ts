@@ -7,6 +7,8 @@ import { USER_ROLE } from '../user/user.constant'
 
 const router = express.Router()
 
-router.post('/pet-post',validateRequest(postValidation.postValidationSchema),authValidation(USER_ROLE?.USER),postController.addPostController)
+router.post('/pet-post', validateRequest(postValidation.postValidationSchema), authValidation(USER_ROLE?.USER), postController.addPostController)
+router.get('/pet-post', postController.getAllPostFromDB)
+router.post('/pet-post/:postId/comments', postController.addCommentController)
 
 export const postRoute = router

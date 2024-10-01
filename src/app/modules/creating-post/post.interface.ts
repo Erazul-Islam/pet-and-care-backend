@@ -1,7 +1,13 @@
+import { TComment } from "../comment/comment.interface"
+
 export type TPost = {
-    postId: string,
+    userName: string,
+    userId: string,
+    userProfilePhoto: string,
     userEmail: string,
     caption: string,
     description: string,
-    photo:string
+    photo: string,
+    category: string,
+    comments : TComment[]
 }
