@@ -16,4 +16,7 @@ router.get('/me',  userController.getProfile)
 
 router.put('/me',  userController.getUpdatedUser)
 
+router.post('/follow/:id',userController.followConntroller)
+router.post('/unfollow/:id',userController.unfollowCoontroller)
+
 export const userRoute = router

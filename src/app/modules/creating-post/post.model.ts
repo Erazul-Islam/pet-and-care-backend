@@ -38,7 +38,6 @@ const postSchema = new Schema<TPost>(
             required: true
         },
         comments: [commentSchema]
-
     },
     {
         timestamps: true

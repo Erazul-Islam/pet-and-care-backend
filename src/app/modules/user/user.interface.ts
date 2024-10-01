@@ -11,7 +11,17 @@ export interface TUser {
     address: string,
     createdAt: Date,
     updatedAt: Date,
-    role: 'ADMIN' | 'USER'
+    role: 'ADMIN' | 'USER',
+    followers: Array<{
+        id: string;        
+        email: string;     
+        username: string; 
+    }>;
+    following: Array<{
+        id: string;        
+        email: string;     
+        username: string; 
+    }>;
 };
 
 export interface UserModel extends Model<TUser> {

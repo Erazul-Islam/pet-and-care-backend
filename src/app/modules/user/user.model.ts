@@ -1,4 +1,4 @@
-import { model, Schema } from "mongoose";
+import mongoose, { model, Schema } from "mongoose";
 import { TUser, UserModel } from "./user.interface";
 import bcrypt from 'bcrypt'
 import config from "../../config";
@@ -22,8 +22,8 @@ const userSchema = new Schema<TUser, UserModel>(
             required: true
         },
         profilePhoto: {
-            type:String,
-            required:true
+            type: String,
+            required: true
         },
         mobileNumber: {
             type: String,
@@ -33,6 +33,16 @@ const userSchema = new Schema<TUser, UserModel>(
             type: String,
             required: true
         },
+        followers: [{
+            id: { type: mongoose.Schema.Types.ObjectId, ref: 'pet_care_user' }, 
+            email: { type: String, required: true },
+            username: { type: String, required: true } 
+        }],
+        following: [{
+            id: { type: mongoose.Schema.Types.ObjectId, ref: 'pet_care_user' }, 
+            email: { type: String, required: true },
+            username: { type: String, required: true } 
+        }]
     },
     {
         timestamps: true,

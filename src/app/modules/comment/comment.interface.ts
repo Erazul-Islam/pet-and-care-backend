@@ -1,4 +1,5 @@
 export type TComment = {
+    // email:string,
     userId : string,
     userName : string
     userProfilePhoto : string,

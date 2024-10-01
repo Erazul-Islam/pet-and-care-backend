@@ -2,6 +2,8 @@ import { Request, Response } from "express";
 import catchAsync from "../../utils/catchAsync";
 import sendResponse from "../../utils/sendResponse";
 import { userService } from "./user.service";
+import config from "../../config";
+import jwt, { JwtPayload } from 'jsonwebtoken'
 
 const signUpRegistration = catchAsync(async (req: Request, res: Response) => {
     const result = await userService.signUp(req.body)
@@ -50,8 +52,47 @@ const getUpdatedUser = async (req: Request, res: Response) => {
 }
 
 
+const followConntroller = catchAsync(async (req: Request, res: Response) => {
+    const token = req.headers.authorization?.split(' ')[1];
+    const targetUserId = req.params.id; 
+    const decoded = jwt.verify(token as string, config.jwtAccessSecret as string);
+    console.log(decoded)
+    const currentUserId = (decoded as JwtPayload)._id as string;
+  
+    const result = await userService.followUser(currentUserId, targetUserId);
+  
+    sendResponse(res, {
+      statusCode: 200,
+      status: 200,
+      success: true,
+      message: result.message,
+      data: null
+    });
+  });
+  
+  const unfollowCoontroller = catchAsync(async (req: Request, res: Response) => {
+    const token = req.headers.authorization?.split(' ')[1];
+    const targetUserId = req.params.id; 
+    const decoded = jwt.verify(token as string, config.jwtAccessSecret as string);
+    const currentUserId = (decoded as JwtPayload)._id as string;
+  
+    const result = await userService.unfollowUser(currentUserId, targetUserId);
+  
+    sendResponse(res, {
+      statusCode: 200,
+      status: 200,
+      success: true,
+      message: result.message,
+      data: null
+    });
+  });
+  
+
+
 export const userController = {
     signUpRegistration,
     getProfile,
-    getUpdatedUser
+    getUpdatedUser,
+    followConntroller,
+    unfollowCoontroller
 }
