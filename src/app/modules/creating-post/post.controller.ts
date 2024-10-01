@@ -95,9 +95,36 @@ const getAllPostFromDB = async (req: Request, res: Response) => {
     }
 }
 
+const deleteCommentController = catchAsync(async (req: Request, res: Response) => {
+    const { postId, commentId } = req.params;
+    const token = req.headers.authorization?.split(" ")[1];
+
+    if (!token) {
+        return sendResponse(res, {
+            success: false,
+            status: 401,
+            message: "Unauthorized",
+            data: null,
+            statusCode: 401,
+        });
+    }
+
+    const updatedPost = await postService.deleteComment(postId, commentId, token as string);
+
+    sendResponse(res, {
+        success: true,
+        status: 200,
+        message: "Comment deleted successfully",
+        data: updatedPost,
+        statusCode: 200,
+    });
+});
+
+
 export const postController = {
     addPostController,
     getAllPostFromDB,
     addCommentController,
-    editCommentController
+    editCommentController,
+    deleteCommentController
 }

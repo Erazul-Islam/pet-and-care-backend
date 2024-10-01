@@ -50,7 +50,6 @@ const addComment = async (postId: string, text: string, token: string) => {
     }
 
     const newComment: TComment = {
-        _id: finduser?._id,
         userId: finduser._id.toString(),
         userName: finduser.name,
         userProfilePhoto: finduser.profilePhoto,
@@ -94,9 +93,36 @@ const EditComment = async (postId: string, commentId: string, text: string, toke
     return result;
 }
 
+const deleteComment = async (postId: string, commentId: string, token: string) => {
+    const decoded = jwt.verify(token, config.jwtAccessSecret as string);
+
+    if (typeof decoded === 'string' || !('email' in decoded)) {
+        throw new Error('Invalid token structure');
+    }
+
+    const findUser = await User.findOne({ email: decoded.email });
+    if (!findUser) {
+        throw new Error("User not found");
+    }
+
+    const result = await postModel.findOneAndUpdate(
+        { _id: postId },
+        { $pull: { comments: { _id: commentId } } }, 
+        { new: true }
+    );
+
+    if (!result) {
+        throw new Error("Post not found or comment does not exist");
+    }
+
+    return result;
+};
+
+
 export const postService = {
     addPost,
     getAllPost,
     addComment,
-    EditComment
+    EditComment,
+    deleteComment
 }
