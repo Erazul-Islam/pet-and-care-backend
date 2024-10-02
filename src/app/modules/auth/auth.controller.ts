@@ -11,7 +11,7 @@ const loginUser = catchAsync(async (req, res) => {
         email: result.user.email,
         mobileNumber: result.user.mobileNumber,
         address: result.user.address,
-        profilePhoto:result.user.profilePhoto,
+        profilePhoto: result.user.profilePhoto,
         role: result.user.role,
     }
 
@@ -25,6 +25,20 @@ const loginUser = catchAsync(async (req, res) => {
 
 })
 
+const changePassword = catchAsync(async (req, res) => {
+    const userId = req.user._id;
+    const passwordData = req.body;
+
+    const result = await authService.changePassword(userId, passwordData);
+    res.status(200).json({
+        success: true,
+        statusCode: 200,
+        message: ` password updated successfully`,
+        data: result
+    })
+});
+
 export const authController = {
-    loginUser
+    loginUser,
+    changePassword
 }

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-this-alias */
 import mongoose, { model, Schema } from "mongoose";
 import { TUser, UserModel } from "./user.interface";
 import bcrypt from 'bcrypt'
@@ -25,6 +26,13 @@ const userSchema = new Schema<TUser, UserModel>(
             type: String,
             required: true
         },
+        needsPasswordChange: {
+            type: Boolean,
+            default: true,
+        },
+        passwordChangedAt: {
+            type: Date,
+        },
         mobileNumber: {
             type: String,
             required: true
@@ -34,14 +42,14 @@ const userSchema = new Schema<TUser, UserModel>(
             required: true
         },
         followers: [{
-            id: { type: mongoose.Schema.Types.ObjectId, ref: 'pet_care_user' }, 
+            id: { type: mongoose.Schema.Types.ObjectId, ref: 'pet_care_user' },
             email: { type: String, required: true },
-            username: { type: String, required: true } 
+            username: { type: String, required: true }
         }],
         following: [{
-            id: { type: mongoose.Schema.Types.ObjectId, ref: 'pet_care_user' }, 
+            id: { type: mongoose.Schema.Types.ObjectId, ref: 'pet_care_user' },
             email: { type: String, required: true },
-            username: { type: String, required: true } 
+            username: { type: String, required: true }
         }]
     },
     {
@@ -56,11 +64,27 @@ const userSchema = new Schema<TUser, UserModel>(
 //     }
 // })
 
-userSchema.pre('save', async function (next) {
-    // eslint-disable-next-line @typescript-eslint/no-this-alias
-    const user = this; // doc
-    // hashing password and save into DB
+// userSchema.pre('save', async function (next) {
+//     // eslint-disable-next-line @typescript-eslint/no-this-alias
+//     const user = this; // doc
+//     // hashing password and save into DB
 
+//     user.password = await bcrypt.hash(
+//         user.password,
+//         Number(config.bcrypt_salt_rounds),
+//     );
+
+//     next();
+// });
+
+userSchema.pre('save', async function (next) {
+    const user = this; // doc
+
+    if (!user.isModified('password')) {
+        return next();
+    }
+
+    // Hash the password
     user.password = await bcrypt.hash(
         user.password,
         Number(config.bcrypt_salt_rounds),
@@ -73,6 +97,10 @@ userSchema.pre('save', async function (next) {
 //     doc.password = '';
 //     next();
 // });
+
+// userSchema.statics.isUserExistsByCustomId = async function (id: string) {
+//     return await User.findOne({ id }).select('+password');
+// };
 
 userSchema.statics.isUSerExistByCustomEmial = async function (email: string) {
     return await User.findOne({ email }).select('+password')

@@ -8,24 +8,26 @@ export interface TUser {
     password: string,
     mobileNumber: string,
     profilePhoto: string,
+    needsPasswordChange: boolean;
+    passwordChangedAt?: Date;
     address: string,
     createdAt: Date,
     updatedAt: Date,
     role: 'ADMIN' | 'USER',
     followers: Array<{
-        id: string;        
-        email: string;     
-        username: string; 
+        id: string;
+        email: string;
+        username: string;
     }>;
     following: Array<{
-        id: string;        
-        email: string;     
-        username: string; 
+        id: string;
+        email: string;
+        username: string;
     }>;
 };
 
 export interface UserModel extends Model<TUser> {
-    // myStaticMethod(): number
+    isUserExistsByCustomId(id: string): Promise<TUser>
     isUSerExistByCustomEmial(email: string): Promise<TUser>
     isPasswordMatched(plainTextPass: string, hashedPass: string): Promise<boolean>
 }
