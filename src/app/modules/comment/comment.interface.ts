@@ -12,4 +12,4 @@ export type TInfo = {
     userId: string,
     userName: string,
     userProfilePhoto: string
-}
+} 

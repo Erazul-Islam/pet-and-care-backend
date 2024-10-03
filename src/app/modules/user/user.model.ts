@@ -30,6 +30,30 @@ const userSchema = new Schema<TUser, UserModel>(
             type: Boolean,
             default: true,
         },
+        coverPhoto : {
+            type : String,
+            default: ''
+        },
+        intro : {
+            type : String,
+            default: ''
+        },
+        college : {
+            type : String,
+            default: ''
+        },
+        university : {
+            type : String,
+            default: ''
+        },
+        lives : {
+            type : String,
+            default: ''
+        },
+        from : {
+            type : String,
+            default: ''
+        },
         passwordChangedAt: {
             type: Date,
         },
@@ -45,13 +69,13 @@ const userSchema = new Schema<TUser, UserModel>(
             id: { type: mongoose.Schema.Types.ObjectId, ref: 'pet_care_user' },
             email: { type: String, required: true },
             username: { type: String, required: true },
-            profilePhoto : {type : String, required : true}
+            profilePhoto: { type: String, required: true }
         }],
         following: [{
             id: { type: mongoose.Schema.Types.ObjectId, ref: 'pet_care_user' },
             email: { type: String, required: true },
             username: { type: String, required: true },
-            profilePhoto : {type : String, required : true}
+            profilePhoto: { type: String, required: true }
         }]
     },
     {

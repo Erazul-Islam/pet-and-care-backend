@@ -68,7 +68,7 @@ const followUser = async (currentUserId: string, targetUserId: string) => {
             id: targetUserId,
             email: targetUser.email,
             username: targetUser.name,
-            profilePhoto : targetUser.profilePhoto
+            profilePhoto: targetUser.profilePhoto
         });
         await currentUser.save();
     }
@@ -79,7 +79,7 @@ const followUser = async (currentUserId: string, targetUserId: string) => {
             id: currentUserId,
             email: currentUser.email,
             username: currentUser.name,
-            profilePhoto : targetUser.profilePhoto
+            profilePhoto: targetUser.profilePhoto
         });
         await targetUser.save();
     }
@@ -114,10 +114,12 @@ const unfollowUser = async (currentUserId: string, targetUserId: string) => {
     return { message: 'Successfully unfollowed the user' };
 };
 
+
+
 export const userService = {
     signUp,
     getMyProfile,
     getUpdatedUser,
     followUser,
-    unfollowUser
+    unfollowUser,
 }

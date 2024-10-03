@@ -144,7 +144,7 @@ const upVotePost = async (postId: string, token: string) => {
 
     if (post?.upvotes.some((upvote) => upvote.userId === userId)) {
 
-        throw new Error("User has already upvoted this post")
+        console.log("nope")
     }
 
     const result = await postModel.findByIdAndUpdate(postId,

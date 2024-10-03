@@ -8,6 +8,12 @@ export interface TUser {
     password: string,
     mobileNumber: string,
     profilePhoto: string,
+    coverPhoto : string,
+    intro : string,
+    college : string,
+    university : string,
+    lives : string,
+    from : string
     needsPasswordChange: boolean;
     passwordChangedAt?: Date;
     address: string,

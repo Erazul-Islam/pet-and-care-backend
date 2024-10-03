@@ -86,7 +86,6 @@ const followConntroller = catchAsync(async (req: Request, res: Response) => {
       data: null
     });
   });
-  
 
 
 export const userController = {
