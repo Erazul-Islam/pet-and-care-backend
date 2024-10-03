@@ -44,12 +44,14 @@ const userSchema = new Schema<TUser, UserModel>(
         followers: [{
             id: { type: mongoose.Schema.Types.ObjectId, ref: 'pet_care_user' },
             email: { type: String, required: true },
-            username: { type: String, required: true }
+            username: { type: String, required: true },
+            profilePhoto : {type : String, required : true}
         }],
         following: [{
             id: { type: mongoose.Schema.Types.ObjectId, ref: 'pet_care_user' },
             email: { type: String, required: true },
-            username: { type: String, required: true }
+            username: { type: String, required: true },
+            profilePhoto : {type : String, required : true}
         }]
     },
     {
@@ -83,8 +85,6 @@ userSchema.pre('save', async function (next) {
     if (!user.isModified('password')) {
         return next();
     }
-
-    // Hash the password
     user.password = await bcrypt.hash(
         user.password,
         Number(config.bcrypt_salt_rounds),

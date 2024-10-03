@@ -59,9 +59,6 @@ const followUser = async (currentUserId: string, targetUserId: string) => {
     const currentUser = await User.findById(currentUserId)
     const targetUser = await User.findById(targetUserId)
 
-    console.log("current", currentUser)
-    console.log(targetUser)
-
     if (!currentUser || !targetUser) {
         throw new Error('User not found');
     }
@@ -70,7 +67,8 @@ const followUser = async (currentUserId: string, targetUserId: string) => {
         currentUser.following.push({
             id: targetUserId,
             email: targetUser.email,
-            username: targetUser.name
+            username: targetUser.name,
+            profilePhoto : targetUser.profilePhoto
         });
         await currentUser.save();
     }
@@ -80,7 +78,8 @@ const followUser = async (currentUserId: string, targetUserId: string) => {
         targetUser.followers.push({
             id: currentUserId,
             email: currentUser.email,
-            username: currentUser.name
+            username: currentUser.name,
+            profilePhoto : targetUser.profilePhoto
         });
         await targetUser.save();
     }

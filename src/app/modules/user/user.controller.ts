@@ -56,7 +56,7 @@ const followConntroller = catchAsync(async (req: Request, res: Response) => {
     const token = req.headers.authorization?.split(' ')[1];
     const targetUserId = req.params.id; 
     const decoded = jwt.verify(token as string, config.jwtAccessSecret as string);
-    console.log(decoded)
+
     const currentUserId = (decoded as JwtPayload)._id as string;
   
     const result = await userService.followUser(currentUserId, targetUserId);

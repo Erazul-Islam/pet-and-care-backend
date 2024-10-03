@@ -12,5 +12,8 @@ router.get('/pet-post', postController.getAllPostFromDB)
 router.post('/pet-post/:postId/comments', postController.addCommentController)
 router.put('/pet-post/:postId/comments/:commentId', postController.editCommentController)
 router.delete('/pet-post/:postId/comments/:commentId', postController.deleteCommentController)
+router.delete ('/pet-post/:postId', postController.deletePostController)
+router.post ('/pet-post/:postId/upvote', postController.upvoteController)
+router.post ('/pet-post/:postId/downvote', postController.downVoteController)
 
 export const postRoute = router

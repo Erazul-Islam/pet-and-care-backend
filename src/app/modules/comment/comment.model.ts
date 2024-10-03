@@ -1,5 +1,5 @@
 import { Schema } from "mongoose"
-import { TComment } from "./comment.interface"
+import { TComment, TInfo } from "./comment.interface"
 
 export const commentSchema = new Schema<TComment>(
     {
@@ -22,4 +22,22 @@ export const commentSchema = new Schema<TComment>(
         },
     },
     { timestamps: true }
+)
+
+export const InfoSchema = new Schema<TInfo>(
+    {
+        userId: {
+            type: String,
+            required: true
+        },
+        userName: {
+            type: String,
+            required: true
+        }
+        ,
+        userProfilePhoto: {
+            type: String,
+            required: true,
+        },
+    }
 )

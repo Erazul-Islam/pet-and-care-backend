@@ -7,3 +7,9 @@ export type TComment = {
     createdAt : Date,
     updatedAt : Date
 }
+
+export type TInfo = {
+    userId: string,
+    userName: string,
+    userProfilePhoto: string
+}

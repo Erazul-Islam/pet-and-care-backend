@@ -18,11 +18,13 @@ export interface TUser {
         id: string;
         email: string;
         username: string;
+        profilePhoto : string
     }>;
     following: Array<{
         id: string;
         email: string;
         username: string;
+        profilePhoto : string
     }>;
 };
 

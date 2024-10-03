@@ -1,6 +1,6 @@
 import { model, Schema } from "mongoose";
 import { TPost } from "./post.interface";
-import { commentSchema } from "../comment/comment.model";
+import { commentSchema, InfoSchema } from "../comment/comment.model";
 
 
 const postSchema = new Schema<TPost>(
@@ -37,6 +37,16 @@ const postSchema = new Schema<TPost>(
             type: String,
             required: true
         },
+        totalUpvotes: {
+            type: Number,
+            default: 0
+        },
+        totalDownvotes: {
+            type: Number,
+            default: 0
+        },
+        upvotes: [InfoSchema],
+        downVotes: [InfoSchema],
         comments: [commentSchema]
     },
     {

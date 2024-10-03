@@ -3,7 +3,7 @@ import { TPost } from "./post.interface";
 import { postModel } from "./post.model";
 import config from '../../config';
 import { User } from '../user/user.model';
-import { TComment } from '../comment/comment.interface';
+import { TComment, TInfo } from '../comment/comment.interface';
 
 
 const addPost = async (payload: TPost, token: string) => {
@@ -107,7 +107,7 @@ const deleteComment = async (postId: string, commentId: string, token: string) =
 
     const result = await postModel.findOneAndUpdate(
         { _id: postId },
-        { $pull: { comments: { _id: commentId } } }, 
+        { $pull: { comments: { _id: commentId } } },
         { new: true }
     );
 
@@ -118,11 +118,95 @@ const deleteComment = async (postId: string, commentId: string, token: string) =
     return result;
 };
 
+const upVotePost = async (postId: string, token: string) => {
+
+    const decoded = jwt.verify(token, config.jwtAccessSecret as string);
+
+    if (typeof decoded === 'string' || !('email' in decoded)) {
+        throw new Error('Invalid token structure');
+    }
+
+    const findUser = await User.findOne({ email: decoded.email });
+    if (!findUser) {
+        throw new Error("User not found");
+    }
+
+    const userId = findUser?._id.toString()
+    const post = await postModel.findById(postId)
+
+    const newInfo: TInfo = {
+        userId: findUser._id.toString(),
+        userName: findUser.name,
+        userProfilePhoto: findUser.profilePhoto,
+    }
+
+    console.log(newInfo)
+
+    if (post?.upvotes.some((upvote) => upvote.userId === userId)) {
+
+        throw new Error("User has already upvoted this post")
+    }
+
+    const result = await postModel.findByIdAndUpdate(postId,
+        {
+            $inc: { totalUpvotes: 1 }, $push: { upvotes: newInfo }
+        },
+        { new: true })
+
+    return result
+}
+
+const downvotePost = async (postId: string, token: string) => {
+    const decoded = jwt.verify(token, config.jwtAccessSecret as string);
+
+    if (typeof decoded === 'string' || !('email' in decoded)) {
+        throw new Error('Invalid token structure');
+    }
+
+    const findUser = await User.findOne({ email: decoded.email });
+    if (!findUser) {
+        throw new Error("User not found");
+    }
+
+    const userId = findUser?._id.toString()
+    const post = await postModel.findById(postId)
+
+    const newInfo: TInfo = {
+        userId: findUser._id.toString(),
+        userName: findUser.name,
+        userProfilePhoto: findUser.profilePhoto,
+    }
+
+    console.log(newInfo)
+
+    if (post?.downVotes.some((downVote) => downVote.userId === userId)) {
+
+        throw new Error("User has already downvoted this post")
+    }
+
+    const result = await postModel.findByIdAndUpdate(postId,
+        {
+            $inc: { totalDownvotes: 1 }, $push: { downVotes: newInfo }
+        },
+        { new: true })
+
+    return result
+}
+
+
+const deletePost = async (id: string) => {
+    const result = await postModel.deleteOne({ _id: id })
+    return result
+}
+
 
 export const postService = {
     addPost,
     getAllPost,
     addComment,
     EditComment,
-    deleteComment
+    deleteComment,
+    deletePost,
+    upVotePost,
+    downvotePost
 }

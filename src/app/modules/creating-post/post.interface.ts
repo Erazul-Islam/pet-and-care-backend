@@ -1,4 +1,6 @@
-import { TComment } from "../comment/comment.interface"
+import { TComment, TInfo } from "../comment/comment.interface"
+
+
 
 export type TPost = {
     userName: string,
@@ -9,5 +11,9 @@ export type TPost = {
     description: string,
     photo: string,
     category: string,
-    comments : TComment[]
+    comments: TComment[],
+    totalUpvotes: number
+    totalDownvotes: number
+    upvotes: TInfo[]
+    downVotes: TInfo[]
 }

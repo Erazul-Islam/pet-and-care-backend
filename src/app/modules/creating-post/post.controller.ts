@@ -69,7 +69,7 @@ const editCommentController = catchAsync(async (req: Request, res: Response) => 
         });
     }
 
-    const updatedComment = await postService.EditComment(postId,commentId,text, token as string)
+    const updatedComment = await postService.EditComment(postId, commentId, text, token as string)
 
     sendResponse(res, {
         success: true,
@@ -120,11 +120,60 @@ const deleteCommentController = catchAsync(async (req: Request, res: Response) =
     });
 });
 
+const deletePostController = async (req: Request, res: Response) => {
+    try {
+        const postId = req.params.postId
+
+        const result = await postService.deletePost(postId)
+
+        res.status(200).json({
+            success: true,
+            message: "Post deleted successfully",
+            data: result
+        })
+    } catch (err) {
+        console.log(err)
+    }
+}
+
+const upvoteController = async (req: Request, res: Response) => {
+    const postId = req.params.postId
+    const token = req.headers.authorization?.split(" ")[1];
+
+    const result = await postService.upVotePost(postId, token as string)
+
+    sendResponse(res, {
+        success: true,
+        status: 200,
+        message: "Post upvoted successfully",
+        statusCode: 200,
+        data: result
+    })
+}
+
+const downVoteController = async (req: Request, res: Response) => {
+    const postId = req.params.postId
+    const token = req.headers.authorization?.split(" ")[1];
+
+    const result = await postService.downvotePost(postId,token as string)
+
+    sendResponse(res, {
+        success: true,
+        status: 200,
+        message: "Post downvoted successfully",
+        statusCode: 200,
+        data: result
+    })
+}
+
 
 export const postController = {
     addPostController,
     getAllPostFromDB,
     addCommentController,
     editCommentController,
-    deleteCommentController
+    deleteCommentController,
+    deletePostController,
+    upvoteController,
+    downVoteController
 }
