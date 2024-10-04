@@ -60,13 +60,14 @@ const followConntroller = catchAsync(async (req: Request, res: Response) => {
     const currentUserId = (decoded as JwtPayload)._id as string;
   
     const result = await userService.followUser(currentUserId, targetUserId);
+
   
     sendResponse(res, {
       statusCode: 200,
       status: 200,
       success: true,
-      message: result.message,
-      data: null
+      message: "Unfollowed",
+      data: result
     });
   });
   

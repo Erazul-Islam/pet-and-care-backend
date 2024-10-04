@@ -29,6 +29,10 @@ const postSchema = new Schema<TPost>(
             type: String,
             required: true
         },
+        isPremium : {
+            type : Boolean,
+            required : true
+        },
         userId: {
             type: String,
             required: true

@@ -69,13 +69,13 @@ const userSchema = new Schema<TUser, UserModel>(
             id: { type: mongoose.Schema.Types.ObjectId, ref: 'pet_care_user' },
             email: { type: String, required: true },
             username: { type: String, required: true },
-            profilePhoto: { type: String, required: true }
+            profilePhoto: { type: String }
         }],
         following: [{
             id: { type: mongoose.Schema.Types.ObjectId, ref: 'pet_care_user' },
             email: { type: String, required: true },
             username: { type: String, required: true },
-            profilePhoto: { type: String, required: true }
+            profilePhoto: { type: String,  }
         }]
     },
     {

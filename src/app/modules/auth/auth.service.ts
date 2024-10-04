@@ -33,7 +33,7 @@ const loginUser = async (payload: TLoginUser) => {
         university : user.university,
         lives : user.lives,
         from : user.from,
-        followrs : user.followers,
+        followers : user.followers,
         following : user.following
     }
 

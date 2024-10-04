@@ -13,7 +13,8 @@ export type TPost = {
     category: string,
     comments: TComment[],
     totalUpvotes: number
-    totalDownvotes: number
+    totalDownvotes: number,
+    isPremium : boolean,
     upvotes: TInfo[]
     downVotes: TInfo[]
 }
