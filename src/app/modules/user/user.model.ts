@@ -24,34 +24,35 @@ const userSchema = new Schema<TUser, UserModel>(
         },
         profilePhoto: {
             type: String,
-            required: true
+            required: true,
+            
         },
         needsPasswordChange: {
             type: Boolean,
             default: true,
         },
-        coverPhoto : {
-            type : String,
+        coverPhoto: {
+            type: String,
+            default: "https://i.ibb.co.com/gW4N1YR/image-3-2x.jpg"
+        },
+        intro: {
+            type: String,
             default: ''
         },
-        intro : {
-            type : String,
+        college: {
+            type: String,
             default: ''
         },
-        college : {
-            type : String,
+        university: {
+            type: String,
             default: ''
         },
-        university : {
-            type : String,
+        lives: {
+            type: String,
             default: ''
         },
-        lives : {
-            type : String,
-            default: ''
-        },
-        from : {
-            type : String,
+        from: {
+            type: String,
             default: ''
         },
         passwordChangedAt: {
@@ -75,7 +76,7 @@ const userSchema = new Schema<TUser, UserModel>(
             id: { type: mongoose.Schema.Types.ObjectId, ref: 'pet_care_user' },
             email: { type: String, required: true },
             username: { type: String, required: true },
-            profilePhoto: { type: String,  }
+            profilePhoto: { type: String, }
         }]
     },
     {
