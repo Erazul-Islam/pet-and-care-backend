@@ -63,7 +63,13 @@ const followUser = async (currentUserId: string, targetUserId: string) => {
         throw new Error('User not found');
     }
 
-    if (!currentUser.following.some(user => user.id === targetUserId)) {
+    const isAlreadyFollowing = currentUser.following.some(user => user.id.toString() === targetUserId )
+
+    if(isAlreadyFollowing){
+        return {message : "You are already following"}
+    }
+
+    if (!currentUser.following.some(user => user.id.toString() === targetUserId)) {
         currentUser.following.push({
             id: targetUserId,
             email: targetUser.email,

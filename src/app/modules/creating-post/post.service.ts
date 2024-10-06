@@ -144,8 +144,13 @@ const upVotePost = async (postId: string, token: string) => {
 
     if (post?.upvotes.some((upvote) => upvote.userId === userId)) {
 
-        console.log("nope")
+        return { message: "Already upvoted" }
     }
+
+    await postModel.findOneAndUpdate(
+        { _id: postId, "downVotes.userId": userId },
+        { $pull: { downVotes: { userId } }, $inc: { totalDownvotes: -1 } }
+    )
 
     const result = await postModel.findByIdAndUpdate(postId,
         {
@@ -181,8 +186,13 @@ const downvotePost = async (postId: string, token: string) => {
 
     if (post?.downVotes.some((downVote) => downVote.userId === userId)) {
 
-        throw new Error("User has already downvoted this post")
+        return { message: "User has already downvoted this post" }
     }
+
+    await postModel.findOneAndUpdate(
+        { _id: postId, "upvotes.userId": userId },
+        { $pull: { upvotes: { userId } }, $inc: { totalUpvotes: -1 } }
+    )
 
     const result = await postModel.findByIdAndUpdate(postId,
         {

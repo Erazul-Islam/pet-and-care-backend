@@ -66,7 +66,7 @@ const followConntroller = catchAsync(async (req: Request, res: Response) => {
       statusCode: 200,
       status: 200,
       success: true,
-      message: "Unfollowed",
+      message: result.message,
       data: result
     });
   });
