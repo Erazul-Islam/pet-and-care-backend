@@ -3,6 +3,7 @@ import { userRoute } from "../modules/user/user.route";
 import { authRoute } from "../modules/auth/auth.route";
 import { postRoute } from "../modules/creating-post/post.route";
 import { payemtRoute } from "../modules/payment/payment.route";
+import { MeilisearchRoutes } from "../modules/meilisearch/meilisearch.route";
 
 const router = Router()
 
@@ -17,12 +18,16 @@ const moduleRoutes = [
         route: authRoute
     },
     {
-        path: '/pet',
-        route : postRoute
+        path : '/search-items',
+        route : MeilisearchRoutes
     },
     {
-        path : '/payment',
-        route : payemtRoute
+        path: '/pet',
+        route: postRoute
+    },
+    {
+        path: '/payment',
+        route: payemtRoute
     }
 ]
 

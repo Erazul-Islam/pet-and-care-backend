@@ -4,6 +4,7 @@ import { postModel } from "./post.model";
 import config from '../../config';
 import { User } from '../user/user.model';
 import { TComment, TInfo } from '../comment/comment.interface';
+import { addDocumentToIndex, deleteDocumentFromIndex } from '../../utils/meilisearch';
 
 
 const addPost = async (payload: TPost, token: string) => {
@@ -28,6 +29,9 @@ const addPost = async (payload: TPost, token: string) => {
     payload.comments = []
 
     const result = await postModel.create(payload)
+
+    await addDocumentToIndex(result,'posts')
+
     return result
 }
 
@@ -205,7 +209,16 @@ const downvotePost = async (postId: string, token: string) => {
 
 
 const deletePost = async (id: string) => {
-    const result = await postModel.deleteOne({ _id: id })
+    const result = await postModel.findByIdAndDelete(id)
+    console.log(result)
+
+    const deletedItemId = result?._id
+    console.log(deletedItemId)
+
+    if(deletedItemId){
+        await deleteDocumentFromIndex('posts',deletedItemId.toString())
+    }
+
     return result
 }
 
