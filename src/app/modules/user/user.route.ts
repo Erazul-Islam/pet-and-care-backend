@@ -17,6 +17,13 @@ router.get('/me',  userController.getProfile)
 router.put('/me',  userController.getUpdatedUser)
 
 router.post('/follow/:id',userController.followConntroller)
+
 router.post('/unfollow/:id',userController.unfollowCoontroller)
+
+router.delete('/:userId', userController.deleteSingleUser)
+
+router.get('/all-profile', userController.getAllProfile)
+
+router.patch('/:userId', userController.getUpdatedUserRole)
 
 export const userRoute = router

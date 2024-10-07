@@ -63,10 +63,10 @@ const followUser = async (currentUserId: string, targetUserId: string) => {
         throw new Error('User not found');
     }
 
-    const isAlreadyFollowing = currentUser.following.some(user => user.id.toString() === targetUserId )
+    const isAlreadyFollowing = currentUser.following.some(user => user.id.toString() === targetUserId)
 
-    if(isAlreadyFollowing){
-        return {message : "You are already following"}
+    if (isAlreadyFollowing) {
+        return { message: "You are already following" }
     }
 
     if (!currentUser.following.some(user => user.id.toString() === targetUserId)) {
@@ -131,6 +131,38 @@ const unfollowUser = async (currentUserId: string, targetUserId: string) => {
 };
 
 
+const getUpdatedUserRole = async (id: string) => {
+    try {
+        const user = await User.findById(id)
+
+        if(!user){
+            return {message:'User not Found'}
+        }
+
+        if(user.role === "ADMIN"){
+            throw new Error ("Cannot change role of an admin")
+        }
+
+        const updatedUser = await User.findByIdAndUpdate({_id:id}, {role : "ADMIN"}, {new : true})
+
+        return updatedUser
+    }
+    catch (err) {
+        console.log(err)
+    }
+}
+
+
+const deleteUser = async (id:string) => {
+    const result = await User.deleteOne({_id : id})
+
+    return result
+}
+
+const getAllProfileFromDB = async () => {
+    const result = await User.find()
+    return result
+}
 
 
 export const userService = {
@@ -139,4 +171,7 @@ export const userService = {
     getUpdatedUser,
     followUser,
     unfollowUser,
+    getUpdatedUserRole,
+    deleteUser,
+    getAllProfileFromDB
 }

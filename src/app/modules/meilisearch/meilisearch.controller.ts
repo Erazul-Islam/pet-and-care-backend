@@ -6,7 +6,7 @@ import httpStatus from "http-status";
 
 
 const getItemsFromMeili = catchAsync (async (req: Request, res : Response) => {
-    const {searchTerm, limit} = req.body
+    const {searchTerm, limit} = req.query
 
     const numberLimit = Number(limit) || 10
 

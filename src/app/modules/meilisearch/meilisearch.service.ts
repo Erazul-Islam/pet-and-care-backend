@@ -2,6 +2,7 @@ import meiliClient from "../../utils/meilisearch"
 
 
 const getAllPosts = async (limit:number,searchTerm : string) => {
+    console.log(searchTerm)
     const index = meiliClient?.index('posts')
 
     if(!index){
