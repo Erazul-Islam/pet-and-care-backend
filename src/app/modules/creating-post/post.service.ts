@@ -30,7 +30,10 @@ const addPost = async (payload: TPost, token: string) => {
 
     const result = await postModel.create(payload)
 
-    await addDocumentToIndex(result,'posts')
+
+    await addDocumentToIndex(result, 'posts')
+
+    // console.log("result",result)
 
     return result
 }
@@ -215,11 +218,46 @@ const deletePost = async (id: string) => {
     const deletedItemId = result?._id
     console.log(deletedItemId)
 
-    if(deletedItemId){
-        await deleteDocumentFromIndex('posts',deletedItemId.toString())
+    if (deletedItemId) {
+        await deleteDocumentFromIndex('posts', deletedItemId.toString())
     }
 
     return result
+}
+
+
+const unPublishPost = async (id: string) => {
+    try {
+        const post = await postModel.findById(id)
+
+        if (!post) {
+            return { message: 'Post is not Found' }
+        }
+
+        const unPublish = await postModel.findByIdAndUpdate({ _id: id }, { isPublished: false }, { new: true })
+
+        return unPublish
+    }
+    catch (err) {
+        console.log(err)
+    }
+}
+
+const publishPost = async (id: string) => {
+    try {
+        const post = await postModel.findById(id)
+
+        if (!post) {
+            return { message: 'Post is not Found' }
+        }
+
+        const Publish = await postModel.findByIdAndUpdate({ _id: id }, { isPublished: true }, { new: true })
+
+        return Publish
+    }
+    catch (err) {
+        console.log(err)
+    }
 }
 
 
@@ -231,5 +269,7 @@ export const postService = {
     deleteComment,
     deletePost,
     upVotePost,
-    downvotePost
+    downvotePost,
+    unPublishPost,
+    publishPost
 }

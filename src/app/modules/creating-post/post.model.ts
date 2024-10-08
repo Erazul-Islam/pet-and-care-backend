@@ -33,6 +33,11 @@ const postSchema = new Schema<TPost>(
             type : String,
             required : true
         },
+        isPublished : {
+            type : Boolean,
+            // required : true,
+            default : true
+        },
         userId: {
             type: String,
             required: true

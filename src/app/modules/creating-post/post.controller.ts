@@ -10,6 +10,8 @@ const addPostController = catchAsync(async (req: Request, res: Response) => {
 
     const result = await postService.addPost(req.body, token as string)
 
+    console.log(result)
+
     sendResponse(res, {
         success: true,
         status: 200,
@@ -166,6 +168,39 @@ const downVoteController = async (req: Request, res: Response) => {
     })
 }
 
+const unPublishController = async (req: Request, res: Response) => {
+    const postId = req.params.postId
+
+    try {
+        const unPublish = await postService.unPublishPost(postId)
+
+        res.status(200).json({
+            success: true,
+            message: "unPublished post successfully",
+            data: unPublish,
+        })
+    } catch (err) {
+        console.log(err)
+    }
+}
+
+
+const PublishController = async (req: Request, res: Response) => {
+    const postId = req.params.postId
+
+    try {
+        const Publish = await postService.publishPost(postId)
+
+        res.status(200).json({
+            success: true,
+            message: "Published post successfully",
+            data: Publish,
+        })
+    } catch (err) {
+        console.log(err)
+    }
+}
+
 
 export const postController = {
     addPostController,
@@ -175,5 +210,7 @@ export const postController = {
     deleteCommentController,
     deletePostController,
     upvoteController,
-    downVoteController
+    downVoteController,
+    unPublishController,
+    PublishController
 }
