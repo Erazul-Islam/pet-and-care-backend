@@ -13,6 +13,7 @@ export const createPaymentIntentController = async (req: Request, res: Response)
       }
   
       const secret = await paymentService.createPaymentIntent(amount);
+
       res.status(200).json({
         success: true,
         message: 'Payment intent created successfully',
