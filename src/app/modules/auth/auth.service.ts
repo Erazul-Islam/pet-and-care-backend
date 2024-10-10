@@ -5,6 +5,7 @@ import { User } from "../user/user.model"
 import { TLoginUser } from "./auth.interface"
 import { createToken } from "./auth.utils"
 import bcrypt from 'bcrypt';
+import jwt, { JwtPayload } from 'jsonwebtoken'
 import { sendEmail } from "../../utils/sendEmail"
 
 const loginUser = async (payload: TLoginUser) => {
@@ -74,19 +75,19 @@ const changePassword = async (userId: string, payload: { oldPassword: string, ne
 }
 
 const forgetPassword = async (email: string) => {
-    const user = await User.isUSerExistByCustomEmial(email)
-    console.log(user)
+    const user = await User.findOne({ email })
 
-    if(!user){
-        throw new AppError(httpStatus.NOT_FOUND,'This user is not found')
+
+    if (!user) {
+        throw new AppError(httpStatus.NOT_FOUND, 'This user is not found')
     }
 
     const jwtPayload = {
-        email : user.email,
-        role : user.role
+        email: user.email,
+        role: user.role,
+        _id : user._id
     }
 
-    console.log(jwtPayload)
 
     const resetToken = createToken(
         jwtPayload,
@@ -96,13 +97,46 @@ const forgetPassword = async (email: string) => {
 
     const resetlink = `${config.reset_link}?email=${user.email}&token=${resetToken}`
 
-    sendEmail(user.email,resetlink)
+    sendEmail(user.email, resetlink)
 
     console.log(resetlink)
+}
+
+interface DecodedToken extends JwtPayload {
+    _id: string;
+    email : string
+}
+
+const resetPassword = async (token: string, newPassword: string): Promise<string> => {
+
+
+    let decoded: DecodedToken
+
+    try {
+        decoded = jwt.verify(token, config.jwtAccessSecret as string) as DecodedToken
+        console.log("decoded",decoded)
+    }
+    catch (err) {
+        console.log(err)
+        throw new AppError(httpStatus.FORBIDDEN, 'Invvalid or expired token')
+    }
+
+    const user = await User.findById(decoded._id)
+
+    if (!user) {
+        throw new AppError(httpStatus.FORBIDDEN, 'User not found')
+    }
+
+    user.password = newPassword
+
+    await user.save()
+    return 'password reset successfully'
+
 }
 
 export const authService = {
     loginUser,
     changePassword,
-    forgetPassword
+    forgetPassword,
+    resetPassword
 }
