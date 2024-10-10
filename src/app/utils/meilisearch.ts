@@ -15,13 +15,15 @@ export async function addDocumentToIndex(
 
     const index = meiliClient.index(indexKey)
 
-    const { _id, caption, description, photo } = result
+    const { _id, caption, description, photo,
+        totalUpvotes } = result
 
     const document = {
         id: _id.toString(),
         caption,
         description,
-        thumbnail: photo
+        thumbnail: photo,
+        totalUpvotes
     }
 
     try {

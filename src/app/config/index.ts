@@ -12,5 +12,7 @@ export default {
     JWT_ACCESS_EXPIRES_IN:process.env.JWT_ACCESS_EXPIRES_IN,
     JWT_REFRESS_EXPIRES_IN:process.env.JWT_REFRESS_EXPIRES_IN,
     meilisearch_Host:process.env.meilisearch_host,
-    meilisearch_api_key:process.env.meilisearch_api_key
+    meilisearch_api_key:process.env.meilisearch_api_key,
+    nodeEnv:process.env.NODE_ENV,
+    reset_link:process.env.reset_Link
 }

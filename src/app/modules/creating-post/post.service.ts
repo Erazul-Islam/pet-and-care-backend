@@ -38,10 +38,16 @@ const addPost = async (payload: TPost, token: string) => {
     return result
 }
 
-const getAllPost = async () => {
-    const result = await postModel.find().populate("comments.userId", "name profilePhoto")
+const getAllPost = async (page = 1, limit = 5) => {
+    const skip = (page -1) * limit
+    const result = await postModel.find().skip(skip).limit(limit).populate("comments.userId", "name profilePhoto")
     return result
 }
+// const getAllPost = async () => {
+
+//     const result = await postModel.find().populate("comments.userId", "name profilePhoto")
+//     return result
+// }
 
 const addComment = async (postId: string, text: string, token: string) => {
     const decoded = jwt.verify(token, config.jwtAccessSecret as string)

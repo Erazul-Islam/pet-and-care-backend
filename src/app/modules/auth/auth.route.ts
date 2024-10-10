@@ -8,5 +8,6 @@ const router = express.Router()
 
 router.post('/login', validateRequest(AuthValidation.loginValidationSchema), authController.loginUser)
 router.post('/change-password', validateRequest(AuthValidation.changePasswordValidationSchema),verifyToken ,authController.changePassword)
+router.post('/forget-password',authController.forgetPassword)
 
 export const authRoute = router

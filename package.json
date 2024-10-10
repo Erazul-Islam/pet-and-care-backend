@@ -8,6 +8,7 @@
     "jsonwebtoken": "^9.0.2",
     "meilisearch": "^0.44.1",
     "mongoose": "^8.5.3",
+    "nodemailer": "^6.9.15",
     "stripe": "^17.0.0",
     "ts-node-dev": "^2.0.0",
     "zod": "^3.23.8"
@@ -19,6 +20,7 @@
     "@types/express": "^4.17.21",
     "@types/jsonwebtoken": "^9.0.6",
     "@types/node": "^22.4.2",
+    "@types/nodemailer": "^6.4.16",
     "@typescript-eslint/eslint-plugin": "^8.2.0",
     "@typescript-eslint/parser": "^8.2.0",
     "eslint": "^9.9.0",

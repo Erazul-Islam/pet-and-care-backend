@@ -83,14 +83,35 @@ const editCommentController = catchAsync(async (req: Request, res: Response) => 
 })
 
 
+// const getAllPostFromDB = async (req: Request, res: Response) => {
+//     try {        
+
+//         const result = await postService.getAllPost()
+
+//         res.status(200).json({
+//             statusCode: 200,
+//             success: true,
+//             message: "Post retrived successfully",
+//             data: result,
+//         })
+//     } catch (err) {
+//         console.log(err)
+//     }
+// }
 const getAllPostFromDB = async (req: Request, res: Response) => {
     try {
-        const result = await postService.getAllPost()
+
+        const { page = 1, limit = 5 } = req.query
+        
+
+        const result = await postService.getAllPost(Number(page), Number(limit))
+        const hasMore = result.length === Number(limit);
         res.status(200).json({
             statusCode: 200,
             success: true,
             message: "Post retrived successfully",
-            data: result
+            data: result,
+            hasMore
         })
     } catch (err) {
         console.log(err)
@@ -157,7 +178,7 @@ const downVoteController = async (req: Request, res: Response) => {
     const postId = req.params.postId
     const token = req.headers.authorization?.split(" ")[1];
 
-    const result = await postService.downvotePost(postId,token as string)
+    const result = await postService.downvotePost(postId, token as string)
 
     sendResponse(res, {
         success: true,
