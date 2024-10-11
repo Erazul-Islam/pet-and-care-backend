@@ -7,6 +7,7 @@ const router = express.Router()
 
 router.post('/pet-post', validateRequest(postValidation.postValidationSchema), postController.addPostController)
 router.get('/pet-post', postController.getAllPostFromDB)
+router.get('/scroll', postController.getAllScrollPostFromDB)
 router.post('/pet-post/:postId/comments', postController.addCommentController)
 router.put('/pet-post/:postId/comments/:commentId', postController.editCommentController)
 router.delete('/pet-post/:postId/comments/:commentId', postController.deleteCommentController)

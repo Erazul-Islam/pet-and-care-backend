@@ -83,40 +83,55 @@ const editCommentController = catchAsync(async (req: Request, res: Response) => 
 })
 
 
-// const getAllPostFromDB = async (req: Request, res: Response) => {
-//     try {        
+const getAllScrollPostFromDB = async (req: Request, res: Response) => {
+    try {
 
-//         const result = await postService.getAllPost()
+        const result = await postService.getScrollAllPost()
+
+        res.status(200).json({
+            statusCode: 200,
+            success: true,
+            message: "Post retrived successfully",
+            data: result,
+        })
+    } catch (err) {
+        console.log(err)
+    }
+}
+const getAllPostFromDB = async (req: Request, res: Response) => {
+    try {
+
+        const result = await postService.getAllPost()
+
+        res.status(200).json({
+            statusCode: 200,
+            success: true,
+            message: "Post retrived successfully",
+            data: result,
+        })
+    } catch (err) {
+        console.log(err)
+    }
+}
+// const getAllPostFromDB = async (req: Request, res: Response) => {
+//     try {
+
+//         const { page = 1, limit = 5 } = req.query
+
+//         const result = await postService.getAllPost(page as number, limit as number)
+//         const hasMore = result.length === limit
 
 //         res.status(200).json({
 //             statusCode: 200,
 //             success: true,
 //             message: "Post retrived successfully",
 //             data: result,
+//             hasMore
 //         })
 //     } catch (err) {
 //         console.log(err)
 //     }
 // }
-const getAllPostFromDB = async (req: Request, res: Response) => {
-    try {
-
-        const { page = 1, limit = 5 } = req.query
-        
-
-        const result = await postService.getAllPost(Number(page), Number(limit))
-        const hasMore = result.length === Number(limit);
-        res.status(200).json({
-            statusCode: 200,
-            success: true,
-            message: "Post retrived successfully",
-            data: result,
-            hasMore
-        })
-    } catch (err) {
-        console.log(err)
-    }
-}
 
 const deleteCommentController = catchAsync(async (req: Request, res: Response) => {
     const { postId, commentId } = req.params;
@@ -233,5 +248,6 @@ export const postController = {
     upvoteController,
     downVoteController,
     unPublishController,
-    PublishController
+    PublishController,
+    getAllScrollPostFromDB
 }

@@ -95,7 +95,8 @@ const forgetPassword = async (email: string) => {
         '10m'
     )
 
-    const resetlink = `${config.reset_link}?email=${user.email}&token=${resetToken}`
+    // const resetlink = `${config.reset_link}?email=${user.email}&token=${resetToken}`
+    const resetlink = `${config.reset_link}/reset/${resetToken}?email=${user.email}`
 
     sendEmail(user.email, resetlink)
 
