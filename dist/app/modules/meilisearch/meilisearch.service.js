@@ -12,20 +12,24 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const mongoose_1 = __importDefault(require("mongoose"));
-const app_1 = __importDefault(require("./app"));
-const config_1 = __importDefault(require("./app/config"));
-function main() {
-    return __awaiter(this, void 0, void 0, function* () {
-        try {
-            yield mongoose_1.default.connect(config_1.default.DATABASE_URL);
-            app_1.default.listen(config_1.default.port, () => {
-                console.log(` Congratulation !! Your server is running on ${config_1.default.port} port`);
-            });
-        }
-        catch (err) {
-            console.log(err);
-        }
-    });
-}
-main();
+exports.MeiliSearchServices = void 0;
+const meilisearch_1 = __importDefault(require("../../utils/meilisearch"));
+const getAllPosts = (limit, searchTerm) => __awaiter(void 0, void 0, void 0, function* () {
+    const index = meilisearch_1.default === null || meilisearch_1.default === void 0 ? void 0 : meilisearch_1.default.index('posts');
+    if (!index) {
+        throw new Error("MeiliSearch client or index not found");
+    }
+    const searchString = searchTerm || "";
+    console.log(searchString);
+    try {
+        const result = yield index.search(searchString, { limit });
+        console.log(result);
+        return result;
+    }
+    catch (error) {
+        console.log(error);
+    }
+});
+exports.MeiliSearchServices = {
+    getAllPosts
+};

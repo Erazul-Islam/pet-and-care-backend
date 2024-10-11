@@ -131,7 +131,7 @@ const deleteSingleUser = async (req: Request, res: Response) => {
 }
 
 const getAllProfile = async (req: Request, res: Response) => {
-    console.log(req.user)
+
 
     try {
         const result = await userService.getAllProfileFromDB()
@@ -139,7 +139,7 @@ const getAllProfile = async (req: Request, res: Response) => {
             statusCode: 200,
             status: 200,
             success: true,
-            message: "Profile retrieved successfully",
+            message: "All profile retrieved successfully",
             data: result
         })
     } catch (err) {

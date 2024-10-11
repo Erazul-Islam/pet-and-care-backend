@@ -51,7 +51,7 @@ const confirmPayment = async (paymentIntentId: string, paymentMethodId: string) 
     }
 };
 
-const getTransactionHistory = async (limit = 5) => {
+const getTransactionHistory = async (limit = 6) => {
     try{
         const paymentIntent = await stripe.paymentIntents.list({
             limit : limit

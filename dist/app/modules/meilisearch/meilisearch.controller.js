@@ -12,20 +12,23 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const mongoose_1 = __importDefault(require("mongoose"));
-const app_1 = __importDefault(require("./app"));
-const config_1 = __importDefault(require("./app/config"));
-function main() {
-    return __awaiter(this, void 0, void 0, function* () {
-        try {
-            yield mongoose_1.default.connect(config_1.default.DATABASE_URL);
-            app_1.default.listen(config_1.default.port, () => {
-                console.log(` Congratulation !! Your server is running on ${config_1.default.port} port`);
-            });
-        }
-        catch (err) {
-            console.log(err);
-        }
+exports.MeiliSearchController = void 0;
+const catchAsync_1 = __importDefault(require("../../utils/catchAsync"));
+const meilisearch_service_1 = require("./meilisearch.service");
+const sendResponse_1 = __importDefault(require("../../utils/sendResponse"));
+const http_status_1 = __importDefault(require("http-status"));
+const getItemsFromMeili = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { searchTerm, limit } = req.query;
+    const numberLimit = Number(limit) || 10;
+    const result = yield meilisearch_service_1.MeiliSearchServices.getAllPosts(numberLimit, searchTerm);
+    (0, sendResponse_1.default)(res, {
+        status: 200,
+        statusCode: http_status_1.default.OK,
+        success: true,
+        message: "Posts retrive successfully",
+        data: result
     });
-}
-main();
+}));
+exports.MeiliSearchController = {
+    getItemsFromMeili
+};

@@ -1,0 +1,23 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.postRoute = void 0;
+const express_1 = __importDefault(require("express"));
+const validateRequest_1 = __importDefault(require("../middleware/validateRequest"));
+const post_validation_1 = require("./post.validation");
+const post_controller_1 = require("./post.controller");
+const router = express_1.default.Router();
+router.post('/pet-post', (0, validateRequest_1.default)(post_validation_1.postValidation.postValidationSchema), post_controller_1.postController.addPostController);
+router.get('/pet-post', post_controller_1.postController.getAllPostFromDB);
+router.get('/scroll', post_controller_1.postController.getAllScrollPostFromDB);
+router.post('/pet-post/:postId/comments', post_controller_1.postController.addCommentController);
+router.put('/pet-post/:postId/comments/:commentId', post_controller_1.postController.editCommentController);
+router.delete('/pet-post/:postId/comments/:commentId', post_controller_1.postController.deleteCommentController);
+router.delete('/pet-post/:postId', post_controller_1.postController.deletePostController);
+router.post('/pet-post/:postId/upvote', post_controller_1.postController.upvoteController);
+router.post('/pet-post/:postId/downvote', post_controller_1.postController.downVoteController);
+router.patch('/pet-post/:postId/unpublish', post_controller_1.postController.unPublishController);
+router.patch('/pet-post/:postId/publish', post_controller_1.postController.PublishController);
+exports.postRoute = router;

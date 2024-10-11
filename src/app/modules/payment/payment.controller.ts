@@ -112,7 +112,7 @@ export const confirmPaymentController = async (req: Request, res: Response) => {
 export const transactionHistoryController = async (req: Request, res: Response) => {
 
     try {
-        const transaction = await paymentService.getTransactionHistory(5)
+        const transaction = await paymentService.getTransactionHistory(6)
 
         return res.status(200).json({
             success: true,
