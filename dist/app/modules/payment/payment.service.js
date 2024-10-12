@@ -16,6 +16,7 @@ exports.paymentService = void 0;
 const stripe_1 = __importDefault(require("stripe"));
 const AppError_1 = __importDefault(require("../../errors/AppError"));
 const http_status_1 = __importDefault(require("http-status"));
+const user_model_1 = require("../user/user.model");
 const stripe = new stripe_1.default(process.env.secret_Key);
 const createPaymentIntent = (amount, userInfo) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -29,6 +30,7 @@ const createPaymentIntent = (amount, userInfo) => __awaiter(void 0, void 0, void
                 userProfilePhoto: userInfo.profilePhoto
             }
         });
+        yield user_model_1.User.updateOne({ email: userInfo.email }, { isPremium: true });
         return paymentIntent;
     }
     catch (_a) {

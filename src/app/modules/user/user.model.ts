@@ -51,6 +51,10 @@ const userSchema = new Schema<TUser, UserModel>(
             type: String,
             default: ''
         },
+        isPremium : {
+            type : Boolean,
+            default : false
+        },
         from: {
             type: String,
             default: ''
@@ -84,25 +88,6 @@ const userSchema = new Schema<TUser, UserModel>(
     },
 );
 
-// userSchema.set('toJSON', {
-//     transform: (doc, ret, options) => {
-//         delete ret.password;
-//         return ret;
-//     }
-// })
-
-// userSchema.pre('save', async function (next) {
-//     // eslint-disable-next-line @typescript-eslint/no-this-alias
-//     const user = this; // doc
-//     // hashing password and save into DB
-
-//     user.password = await bcrypt.hash(
-//         user.password,
-//         Number(config.bcrypt_salt_rounds),
-//     );
-
-//     next();
-// });
 
 userSchema.pre('save', async function (next) {
     const user = this; // doc
@@ -118,14 +103,6 @@ userSchema.pre('save', async function (next) {
     next();
 });
 
-// userSchema.post('save', function (doc, next) {
-//     doc.password = '';
-//     next();
-// });
-
-// userSchema.statics.isUserExistsByCustomId = async function (id: string) {
-//     return await User.findOne({ id }).select('+password');
-// };
 
 userSchema.statics.isUSerExistByCustomEmial = async function (email: string) {
     return await User.findOne({ email }).select('+password')

@@ -55,6 +55,7 @@ const postSchema = new mongoose_1.Schema({
     },
     upvotes: [comment_model_1.InfoSchema],
     downVotes: [comment_model_1.InfoSchema],
+    // paymentInfo: [InfoSchema],
     comments: [comment_model_1.commentSchema]
 }, {
     timestamps: true

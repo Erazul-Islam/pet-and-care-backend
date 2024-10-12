@@ -14,8 +14,9 @@ export type TPost = {
     comments: TComment[],
     totalUpvotes: number
     totalDownvotes: number,
-    isPremium : string,
-    isPublished : boolean,
+    isPremium: string,
+    isPublished: boolean,
     upvotes: TInfo[]
-    downVotes: TInfo[]
+    downVotes: TInfo[],
+    // paymentInfo: TInfo[]
 }

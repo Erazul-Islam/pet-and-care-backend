@@ -1,22 +1,26 @@
 import Stripe from "stripe";
 import AppError from "../../errors/AppError";
 import httpStatus from "http-status";
+import { User } from "../user/user.model";
 
 const stripe = new Stripe(process.env.secret_Key as string);
 
-const createPaymentIntent = async (amount: number, userInfo : {email : string, name : string, profilePhoto : string}) => {
+const createPaymentIntent = async (amount: number, userInfo: { email: string, name: string, profilePhoto: string }) => {
 
     try {
         const paymentIntent = await stripe.paymentIntents.create({
             amount,
             currency: 'usd',
             payment_method_types: ['card'],
-            metadata : {
-                userEmail : userInfo.email,
-                userName : userInfo.name,
-                userProfilePhoto : userInfo.profilePhoto
+            metadata: {
+                userEmail: userInfo.email,
+                userName: userInfo.name,
+                userProfilePhoto: userInfo.profilePhoto
             }
         });
+
+        await User.updateOne({ email: userInfo.email }, { isPremium: true })
+
         return paymentIntent;
 
     } catch {
@@ -52,15 +56,15 @@ const confirmPayment = async (paymentIntentId: string, paymentMethodId: string) 
 };
 
 const getTransactionHistory = async (limit = 6) => {
-    try{
+    try {
         const paymentIntent = await stripe.paymentIntents.list({
-            limit : limit
+            limit: limit
         })
 
         return paymentIntent.data
     }
-    catch  {
-        throw new AppError(httpStatus.NOT_FOUND,'payment history not found')
+    catch {
+        throw new AppError(httpStatus.NOT_FOUND, 'payment history not found')
     }
 }
 

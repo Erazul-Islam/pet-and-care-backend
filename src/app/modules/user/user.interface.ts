@@ -8,12 +8,13 @@ export interface TUser {
     password: string,
     mobileNumber: string,
     profilePhoto: string,
-    coverPhoto : string,
-    intro : string,
-    college : string,
-    university : string,
-    lives : string,
-    from : string
+    coverPhoto: string,
+    intro: string,
+    college: string,
+    university: string,
+    lives: string,
+    from: string,
+    isPremium: boolean,
     needsPasswordChange: boolean;
     passwordChangedAt?: Date;
     address: string,
@@ -24,13 +25,13 @@ export interface TUser {
         id: string;
         email: string;
         username: string;
-        profilePhoto : string
+        profilePhoto: string
     }>;
     following: Array<{
         id: string;
         email: string;
         username: string;
-        profilePhoto : string
+        profilePhoto: string
     }>;
 };
 

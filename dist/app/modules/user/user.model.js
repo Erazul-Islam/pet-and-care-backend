@@ -85,6 +85,10 @@ const userSchema = new mongoose_1.Schema({
         type: String,
         default: ''
     },
+    isPremium: {
+        type: Boolean,
+        default: false
+    },
     from: {
         type: String,
         default: ''
@@ -115,22 +119,6 @@ const userSchema = new mongoose_1.Schema({
 }, {
     timestamps: true,
 });
-// userSchema.set('toJSON', {
-//     transform: (doc, ret, options) => {
-//         delete ret.password;
-//         return ret;
-//     }
-// })
-// userSchema.pre('save', async function (next) {
-//     // eslint-disable-next-line @typescript-eslint/no-this-alias
-//     const user = this; // doc
-//     // hashing password and save into DB
-//     user.password = await bcrypt.hash(
-//         user.password,
-//         Number(config.bcrypt_salt_rounds),
-//     );
-//     next();
-// });
 userSchema.pre('save', function (next) {
     return __awaiter(this, void 0, void 0, function* () {
         const user = this; // doc
@@ -141,13 +129,6 @@ userSchema.pre('save', function (next) {
         next();
     });
 });
-// userSchema.post('save', function (doc, next) {
-//     doc.password = '';
-//     next();
-// });
-// userSchema.statics.isUserExistsByCustomId = async function (id: string) {
-//     return await User.findOne({ id }).select('+password');
-// };
 userSchema.statics.isUSerExistByCustomEmial = function (email) {
     return __awaiter(this, void 0, void 0, function* () {
         return yield exports.User.findOne({ email }).select('+password');

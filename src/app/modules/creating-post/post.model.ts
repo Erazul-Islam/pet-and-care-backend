@@ -29,14 +29,14 @@ const postSchema = new Schema<TPost>(
             type: String,
             required: true
         },
-        isPremium : {
-            type : String,
-            required : true
+        isPremium: {
+            type: String,
+            required: true
         },
-        isPublished : {
-            type : Boolean,
+        isPublished: {
+            type: Boolean,
             // required : true,
-            default : true
+            default: true
         },
         userId: {
             type: String,
@@ -56,6 +56,7 @@ const postSchema = new Schema<TPost>(
         },
         upvotes: [InfoSchema],
         downVotes: [InfoSchema],
+        // paymentInfo: [InfoSchema],
         comments: [commentSchema]
     },
     {
