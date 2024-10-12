@@ -238,6 +238,30 @@ const PublishController = async (req: Request, res: Response) => {
 }
 
 
+const searchProductsController = async (req: Request, res: Response) => {
+    const { searchTerm } = req.query
+    console.log(searchTerm)
+    if (searchTerm) {
+        try {
+            const result = await postService.searchPost(searchTerm as string)
+            res.status(200).json({
+                success: true,
+                message: 'Search product',
+                data: result
+            })
+        }
+        catch (err) {
+            res.status(500).json({
+                success: false,
+                message: " search something went wrong",
+                error: err,
+            });
+        }
+    }
+}
+
+
+
 export const postController = {
     addPostController,
     getAllPostFromDB,
@@ -249,5 +273,6 @@ export const postController = {
     downVoteController,
     unPublishController,
     PublishController,
-    getAllScrollPostFromDB
+    getAllScrollPostFromDB,
+    searchProductsController
 }

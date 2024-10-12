@@ -273,6 +273,23 @@ const publishPost = async (id: string) => {
 }
 
 
+const searchPost = async (searchTerm: string) => {
+    const searchAbleFields = ["caption"];
+    let query = {};
+    if (searchTerm) {
+        query = {
+            $or:
+                searchAbleFields.map((field) => ({ [field]: { $regex: searchTerm, $options: "i" } }))
+
+        };
+        console.log(query)
+    }
+
+    const result = await postModel.find(query);
+    return result;
+};
+
+
 export const postService = {
     addPost,
     getAllPost,
@@ -284,5 +301,6 @@ export const postService = {
     downvotePost,
     unPublishPost,
     publishPost,
-    getScrollAllPost
+    getScrollAllPost,
+    searchPost
 }

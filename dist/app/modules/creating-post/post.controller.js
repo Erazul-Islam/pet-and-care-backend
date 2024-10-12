@@ -211,6 +211,27 @@ const PublishController = (req, res) => __awaiter(void 0, void 0, void 0, functi
         console.log(err);
     }
 });
+const searchProductsController = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { searchTerm } = req.query;
+    console.log(searchTerm);
+    if (searchTerm) {
+        try {
+            const result = yield post_service_1.postService.searchPost(searchTerm);
+            res.status(200).json({
+                success: true,
+                message: 'Search product',
+                data: result
+            });
+        }
+        catch (err) {
+            res.status(500).json({
+                success: false,
+                message: " search something went wrong",
+                error: err,
+            });
+        }
+    }
+});
 exports.postController = {
     addPostController,
     getAllPostFromDB,
@@ -222,5 +243,6 @@ exports.postController = {
     downVoteController,
     unPublishController,
     PublishController,
-    getAllScrollPostFromDB
+    getAllScrollPostFromDB,
+    searchProductsController
 };

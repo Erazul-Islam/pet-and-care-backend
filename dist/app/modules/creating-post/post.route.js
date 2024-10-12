@@ -20,4 +20,5 @@ router.post('/pet-post/:postId/upvote', post_controller_1.postController.upvoteC
 router.post('/pet-post/:postId/downvote', post_controller_1.postController.downVoteController);
 router.patch('/pet-post/:postId/unpublish', post_controller_1.postController.unPublishController);
 router.patch('/pet-post/:postId/publish', post_controller_1.postController.PublishController);
+router.get('/search', post_controller_1.postController.searchProductsController);
 exports.postRoute = router;

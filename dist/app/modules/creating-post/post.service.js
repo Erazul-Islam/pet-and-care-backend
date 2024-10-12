@@ -192,6 +192,18 @@ const publishPost = (id) => __awaiter(void 0, void 0, void 0, function* () {
         console.log(err);
     }
 });
+const searchPost = (searchTerm) => __awaiter(void 0, void 0, void 0, function* () {
+    const searchAbleFields = ["caption", "description"];
+    let query = {};
+    if (searchTerm) {
+        query = {
+            $or: searchAbleFields.map((field) => ({ [field]: { $regex: searchTerm, $options: "i" } }))
+        };
+        console.log(query);
+    }
+    const result = yield post_model_1.postModel.find(query);
+    return result;
+});
 exports.postService = {
     addPost,
     getAllPost,
@@ -203,5 +215,6 @@ exports.postService = {
     downvotePost,
     unPublishPost,
     publishPost,
-    getScrollAllPost
+    getScrollAllPost,
+    searchPost
 };
