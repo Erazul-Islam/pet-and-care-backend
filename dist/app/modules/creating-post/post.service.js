@@ -193,7 +193,7 @@ const publishPost = (id) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 const searchPost = (searchTerm) => __awaiter(void 0, void 0, void 0, function* () {
-    const searchAbleFields = ["caption", "description"];
+    const searchAbleFields = ["caption"];
     let query = {};
     if (searchTerm) {
         query = {
