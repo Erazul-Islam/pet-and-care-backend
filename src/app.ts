@@ -6,8 +6,15 @@ import notFound from './app/modules/middleware/notFound'
 
 const app : Application = express()
 
+const corsOptions = {
+    origin: ['http://localhost:3000',"https://petcare-lake.vercel.app"], 
+    credentials: true,
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    allowedHeaders: 'Content-Type,Authorization' 
+};
+
 app.use(express.json())
-app.use(cors())
+app.use(cors(corsOptions))
 
 app.use('/api', router);
 

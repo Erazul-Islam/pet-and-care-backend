@@ -11,6 +11,7 @@ const validateRequest_1 = __importDefault(require("../middleware/validateRequest
 const router = express_1.default.Router();
 router.post('/register', (0, validateRequest_1.default)(user_validation_1.UserValidation.userValidationSchema), user_controller_1.userController.signUpRegistration);
 router.get('/me', user_controller_1.userController.getProfile);
+router.get('/users/:userId', user_controller_1.userController.getSingleProfile);
 router.put('/me', user_controller_1.userController.getUpdatedUser);
 router.post('/follow/:id', user_controller_1.userController.followConntroller);
 router.post('/unfollow/:id', user_controller_1.userController.unfollowCoontroller);
@@ -19,4 +20,6 @@ router.get('/all-profile', user_controller_1.userController.getAllProfile);
 router.patch('/:userId', user_controller_1.userController.getUpdatedUserRole);
 router.post('/send', user_controller_1.userController.sendFriendRequest);
 router.post('/accept', user_controller_1.userController.acceptFrinedRequest);
+router.get('/:userId/pending', user_controller_1.userController.viewFriendRequest);
+router.get('/:userId/friend', user_controller_1.userController.viewFriend);
 exports.userRoute = router;

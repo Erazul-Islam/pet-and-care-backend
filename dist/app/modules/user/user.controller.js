@@ -43,6 +43,20 @@ const getProfile = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         console.log(err);
     }
 });
+const getSingleProfile = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const id = req.params.userId;
+        const result = yield user_service_1.userService.getSingleProfile(id);
+        res.status(200).json({
+            success: true,
+            message: "Single profile retrived successfully!",
+            data: result
+        });
+    }
+    catch (err) {
+        console.log(err);
+    }
+});
 const getUpdatedUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
     const token = (_a = req.headers.authorization) === null || _a === void 0 ? void 0 : _a.split(' ')[1];
@@ -171,6 +185,38 @@ const acceptFrinedRequest = (req, res) => __awaiter(void 0, void 0, void 0, func
         console.log(error);
     }
 });
+const viewFriendRequest = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const userId = req.params.userId;
+    try {
+        const result = yield user_service_1.userService.viewFriendRequest(userId);
+        res.status(200).json({
+            statusCode: 200,
+            status: 200,
+            success: true,
+            message: "Friend Request viewed successfully",
+            data: result
+        });
+    }
+    catch (error) {
+        console.log(error);
+    }
+});
+const viewFriend = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const userId = req.params.userId;
+    try {
+        const result = yield user_service_1.userService.viewFriend(userId);
+        res.status(200).json({
+            statusCode: 200,
+            status: 200,
+            success: true,
+            message: "Friends viewed successfully",
+            data: result
+        });
+    }
+    catch (error) {
+        console.log(error);
+    }
+});
 exports.userController = {
     signUpRegistration,
     getProfile,
@@ -181,5 +227,8 @@ exports.userController = {
     deleteSingleUser,
     getAllProfile,
     sendFriendRequest,
-    acceptFrinedRequest
+    acceptFrinedRequest,
+    viewFriendRequest,
+    viewFriend,
+    getSingleProfile
 };

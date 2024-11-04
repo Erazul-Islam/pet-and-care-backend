@@ -18,7 +18,7 @@ const moduleRoutes = [
         route: authRoute
     },
     {
-        path : '/search-items',
+        path : '/search-items', 
         route : MeilisearchRoutes
     },
     {

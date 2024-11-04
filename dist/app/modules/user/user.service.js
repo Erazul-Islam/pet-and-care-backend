@@ -140,11 +140,11 @@ const requestFriend = (senderId, receiverId) => __awaiter(void 0, void 0, void 0
     const senderProfilePhoto = sender === null || sender === void 0 ? void 0 : sender.profilePhoto;
     const senderName = sender === null || sender === void 0 ? void 0 : sender.name;
     if (!sender || !receiver) {
-        return { message: "Not found" };
+        throw new Error("User not found");
     }
     const existingRequest = receiver === null || receiver === void 0 ? void 0 : receiver.friendRequest.find((req) => req.sender.toString() === senderId);
     if (existingRequest) {
-        return { message: "Already sent" };
+        throw new Error("Friend request already sent");
     }
     receiver === null || receiver === void 0 ? void 0 : receiver.friendRequest.push({ sender: senderId, status: 'pending', senderProfilePhoto: senderProfilePhoto, senderName: senderName });
     const result = yield (receiver === null || receiver === void 0 ? void 0 : receiver.save());
@@ -177,12 +177,39 @@ const acceptFriendRequest = (userId, senderId) => __awaiter(void 0, void 0, void
     yield sender.save();
     return result;
 });
+const viewFriendRequest = (userId) => __awaiter(void 0, void 0, void 0, function* () {
+    const user = yield user_model_1.User.findById(userId);
+    if (!user) {
+        throw new Error('User not found');
+    }
+    const result = yield user.friendRequest.filter((req) => req.status === 'pending');
+    return result;
+});
+const viewFriend = (userId) => __awaiter(void 0, void 0, void 0, function* () {
+    const user = yield user_model_1.User.findById(userId);
+    if (!user) {
+        throw new Error('User not found');
+    }
+    const result = user.friend;
+    return result;
+});
 const deleteUser = (id) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield user_model_1.User.deleteOne({ _id: id });
     return result;
 });
 const getAllProfileFromDB = () => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield user_model_1.User.find();
+    try {
+        const result = yield user_model_1.User.find();
+        console.log(result);
+        return result;
+    }
+    catch (err) {
+        console.error("Error retrieving profiles:", err);
+        throw err;
+    }
+});
+const getSingleProfile = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield user_model_1.User.findById(id);
     return result;
 });
 exports.userService = {
@@ -195,5 +222,8 @@ exports.userService = {
     deleteUser,
     getAllProfileFromDB,
     requestFriend,
-    acceptFriendRequest
+    acceptFriendRequest,
+    viewFriendRequest,
+    viewFriend,
+    getSingleProfile
 };

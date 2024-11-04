@@ -13,6 +13,7 @@ router.post(
 );
 
 router.get('/me',  userController.getProfile)
+router.get('/users/:userId',  userController.getSingleProfile)
 
 router.put('/me',  userController.getUpdatedUser)
 

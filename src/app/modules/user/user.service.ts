@@ -5,7 +5,6 @@ import { TUser } from './user.interface';
 import { User } from './user.model';
 import config from '../../config';
 
-
 const signUp = async (payload: TUser) => {
     const result = await User.create(payload)
     return result
@@ -168,9 +167,9 @@ const requestFriend = async (senderId: string, receiverId: string) => {
     const receiver = await User.findById(receiverId)
     const senderProfilePhoto = sender?.profilePhoto
     const senderName = sender?.name
-
+ 
     if (!sender || !receiver) {
-        return { message: "Not found" }
+        throw new Error("User not found");
     }
 
     const existingRequest = receiver?.friendRequest.find(
@@ -178,7 +177,7 @@ const requestFriend = async (senderId: string, receiverId: string) => {
     );
 
     if (existingRequest) {
-        return { message: "Already sent" }
+        throw new Error("Friend request already sent");
     }
 
     receiver?.friendRequest.push({ sender: senderId, status: 'pending', senderProfilePhoto: senderProfilePhoto, senderName: senderName })
@@ -241,7 +240,6 @@ const viewFriendRequest = async (userId :string) => {
 
 const viewFriend = async (userId:string) => {
     const user = await User.findById(userId)
-    console.log(user)
 
     if(!user){
         throw new Error ('User not found')
@@ -260,7 +258,20 @@ const deleteUser = async (id: string) => {
 }
 
 const getAllProfileFromDB = async () => {
-    const result = await User.find()
+    try {
+        const result = await User.find();
+        console.log(result); 
+        return result;
+    } catch (err) {
+        console.error("Error retrieving profiles:", err);
+        throw err; 
+    }
+}
+const getSingleProfile = async (id:string) => {
+   
+
+    const result = await User.findById(id)
+
     return result
 }
 
@@ -277,5 +288,6 @@ export const userService = {
     requestFriend,
     acceptFriendRequest,
     viewFriendRequest,
-    viewFriend
+    viewFriend,
+    getSingleProfile
 }

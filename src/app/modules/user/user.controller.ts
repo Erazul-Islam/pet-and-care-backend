@@ -33,6 +33,28 @@ const getProfile = async (req: Request, res: Response) => {
 
 };
 
+
+
+const getSingleProfile = async (req: Request, res: Response) => {
+    try {
+
+        const id = req.params.userId
+
+        const result = await userService.getSingleProfile(id)
+
+        res.status(200).json({
+            success: true,
+            message: "Single profile retrived successfully!",
+            data: result
+        })
+    } catch (err) {
+        console.log(err)
+    }
+
+};
+
+
+
 const getUpdatedUser = async (req: Request, res: Response) => {
     const token = req.headers.authorization?.split(' ')[1]
     const updatedData = req.body
@@ -228,5 +250,6 @@ export const userController = {
     sendFriendRequest,
     acceptFrinedRequest,
     viewFriendRequest,
-    viewFriend
+    viewFriend,
+    getSingleProfile
 }
