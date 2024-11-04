@@ -104,6 +104,22 @@ const userSchema = new mongoose_1.Schema({
         type: String,
         required: true
     },
+    friendRequest: [
+        {
+            sender: { type: mongoose_1.Schema.Types.ObjectId, ref: "User", required: true },
+            status: { type: String, enum: ["pending", "accepted", "declined"], default: "pending" },
+            senderProfilePhoto: { type: String, required: true },
+            senderName: { type: String, required: true }
+        }
+    ],
+    friend: [
+        {
+            id: { type: mongoose_1.Schema.Types.ObjectId, ref: "User", required: true },
+            email: { type: String, required: true },
+            username: { type: String, required: true },
+            profilePhoto: { type: String },
+        }
+    ],
     followers: [{
             id: { type: mongoose_1.default.Schema.Types.ObjectId, ref: 'pet_care_user' },
             email: { type: String, required: true },

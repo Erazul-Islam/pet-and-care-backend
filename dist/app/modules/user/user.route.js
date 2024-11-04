@@ -17,4 +17,6 @@ router.post('/unfollow/:id', user_controller_1.userController.unfollowCoontrolle
 router.delete('/:userId', user_controller_1.userController.deleteSingleUser);
 router.get('/all-profile', user_controller_1.userController.getAllProfile);
 router.patch('/:userId', user_controller_1.userController.getUpdatedUserRole);
+router.post('/send', user_controller_1.userController.sendFriendRequest);
+router.post('/accept', user_controller_1.userController.acceptFrinedRequest);
 exports.userRoute = router;

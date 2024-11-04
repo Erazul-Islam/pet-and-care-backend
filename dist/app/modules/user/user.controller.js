@@ -139,6 +139,38 @@ const getAllProfile = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         console.log(err);
     }
 });
+const sendFriendRequest = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { senderId, receiverId } = req.body;
+    try {
+        const result = yield user_service_1.userService.requestFriend(senderId, receiverId);
+        res.status(200).json({
+            statusCode: 200,
+            status: 200,
+            success: true,
+            message: "Friend Request sent successfully",
+            data: result
+        });
+    }
+    catch (error) {
+        console.log(error);
+    }
+});
+const acceptFrinedRequest = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { userId, senderId } = req.body;
+    try {
+        const result = yield user_service_1.userService.acceptFriendRequest(userId, senderId);
+        res.status(200).json({
+            statusCode: 200,
+            status: 200,
+            success: true,
+            message: "Friend Request accepted successfully",
+            data: result
+        });
+    }
+    catch (error) {
+        console.log(error);
+    }
+});
 exports.userController = {
     signUpRegistration,
     getProfile,
@@ -147,5 +179,7 @@ exports.userController = {
     unfollowCoontroller,
     getUpdatedUserRole,
     deleteSingleUser,
-    getAllProfile
+    getAllProfile,
+    sendFriendRequest,
+    acceptFrinedRequest
 };

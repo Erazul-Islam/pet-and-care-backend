@@ -135,15 +135,15 @@ const getUpdatedUserRole = async (id: string) => {
     try {
         const user = await User.findById(id)
 
-        if(!user){
-            return {message:'User not Found'}
+        if (!user) {
+            return { message: 'User not Found' }
         }
 
-        if(user.role === "ADMIN"){
-            throw new Error ("Cannot change role of an admin")
+        if (user.role === "ADMIN") {
+            throw new Error("Cannot change role of an admin")
         }
 
-        const updatedUser = await User.findByIdAndUpdate({_id:id}, {role : "ADMIN"}, {new : true})
+        const updatedUser = await User.findByIdAndUpdate({ _id: id }, { role: "ADMIN" }, { new: true })
 
         return updatedUser
     }
@@ -153,8 +153,108 @@ const getUpdatedUserRole = async (id: string) => {
 }
 
 
-const deleteUser = async (id:string) => {
-    const result = await User.deleteOne({_id : id})
+const requestFriend = async (senderId: string, receiverId: string) => {
+
+
+    if (!senderId) {
+        console.log("Invalid id")
+    }
+    if (!receiverId) {
+        console.log("Invalid rec id")
+    }
+
+    const sender = await User.findById(senderId)
+
+    const receiver = await User.findById(receiverId)
+    const senderProfilePhoto = sender?.profilePhoto
+    const senderName = sender?.name
+
+    if (!sender || !receiver) {
+        return { message: "Not found" }
+    }
+
+    const existingRequest = receiver?.friendRequest.find(
+        (req) => req.sender.toString() === senderId
+    );
+
+    if (existingRequest) {
+        return { message: "Already sent" }
+    }
+
+    receiver?.friendRequest.push({ sender: senderId, status: 'pending', senderProfilePhoto: senderProfilePhoto, senderName: senderName })
+    const result = await receiver?.save()
+
+    return result
+
+}
+
+
+const acceptFriendRequest = async (userId: string, senderId: string) => {
+    const user = await User.findById(userId)
+    const sender = await User.findById(senderId)
+
+    if (!user || !sender) {
+        throw new Error("User not found.");
+    }
+
+    const friendRequest = user.friendRequest.find(
+        (req) => req.sender.toString() === senderId && req.status === 'pending'
+    )
+
+    if (!friendRequest) {
+        throw new Error('No pending friend request')
+    }
+
+    friendRequest.status = 'accepted'
+
+    user.friend.push({
+        id: senderId,
+        email: sender.email,
+        username: sender.name,
+        profilePhoto: sender.profilePhoto
+    })
+
+    sender.friend.push({
+        id: senderId,
+        email: sender.email,
+        username: sender.name,
+        profilePhoto: sender.profilePhoto
+    })
+
+    const result = await user.save()
+    await sender.save()
+
+    return result
+}
+
+const viewFriendRequest = async (userId :string) => {
+    const user = await User.findById(userId)
+
+    if(!user){
+        throw new Error ('User not found')
+    }
+
+    const result = await user.friendRequest.filter((req) => req.status === 'pending')
+
+    return result
+} 
+
+const viewFriend = async (userId:string) => {
+    const user = await User.findById(userId)
+    console.log(user)
+
+    if(!user){
+        throw new Error ('User not found')
+    }
+
+    const result = user.friend
+
+    return result
+
+}
+
+const deleteUser = async (id: string) => {
+    const result = await User.deleteOne({ _id: id })
 
     return result
 }
@@ -173,5 +273,9 @@ export const userService = {
     unfollowUser,
     getUpdatedUserRole,
     deleteUser,
-    getAllProfileFromDB
+    getAllProfileFromDB,
+    requestFriend,
+    acceptFriendRequest,
+    viewFriendRequest,
+    viewFriend
 }

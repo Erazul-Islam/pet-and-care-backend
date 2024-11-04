@@ -26,4 +26,11 @@ router.get('/all-profile', userController.getAllProfile)
 
 router.patch('/:userId', userController.getUpdatedUserRole)
 
+router.post('/send', userController.sendFriendRequest)
+
+router.post('/accept', userController.acceptFrinedRequest)
+
+router.get('/:userId/pending', userController.viewFriendRequest)
+router.get('/:userId/friend', userController.viewFriend)
+
 export const userRoute = router

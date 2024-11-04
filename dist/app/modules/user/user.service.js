@@ -128,6 +128,55 @@ const getUpdatedUserRole = (id) => __awaiter(void 0, void 0, void 0, function* (
         console.log(err);
     }
 });
+const requestFriend = (senderId, receiverId) => __awaiter(void 0, void 0, void 0, function* () {
+    if (!senderId) {
+        console.log("Invalid id");
+    }
+    if (!receiverId) {
+        console.log("Invalid rec id");
+    }
+    const sender = yield user_model_1.User.findById(senderId);
+    const receiver = yield user_model_1.User.findById(receiverId);
+    const senderProfilePhoto = sender === null || sender === void 0 ? void 0 : sender.profilePhoto;
+    const senderName = sender === null || sender === void 0 ? void 0 : sender.name;
+    if (!sender || !receiver) {
+        return { message: "Not found" };
+    }
+    const existingRequest = receiver === null || receiver === void 0 ? void 0 : receiver.friendRequest.find((req) => req.sender.toString() === senderId);
+    if (existingRequest) {
+        return { message: "Already sent" };
+    }
+    receiver === null || receiver === void 0 ? void 0 : receiver.friendRequest.push({ sender: senderId, status: 'pending', senderProfilePhoto: senderProfilePhoto, senderName: senderName });
+    const result = yield (receiver === null || receiver === void 0 ? void 0 : receiver.save());
+    return result;
+});
+const acceptFriendRequest = (userId, senderId) => __awaiter(void 0, void 0, void 0, function* () {
+    const user = yield user_model_1.User.findById(userId);
+    const sender = yield user_model_1.User.findById(senderId);
+    if (!user || !sender) {
+        throw new Error("User not found.");
+    }
+    const friendRequest = user.friendRequest.find((req) => req.sender.toString() === senderId && req.status === 'pending');
+    if (!friendRequest) {
+        throw new Error('No pending friend request');
+    }
+    friendRequest.status = 'accepted';
+    user.friend.push({
+        id: senderId,
+        email: sender.email,
+        username: sender.name,
+        profilePhoto: sender.profilePhoto
+    });
+    sender.friend.push({
+        id: senderId,
+        email: sender.email,
+        username: sender.name,
+        profilePhoto: sender.profilePhoto
+    });
+    const result = yield user.save();
+    yield sender.save();
+    return result;
+});
 const deleteUser = (id) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield user_model_1.User.deleteOne({ _id: id });
     return result;
@@ -144,5 +193,7 @@ exports.userService = {
     unfollowUser,
     getUpdatedUserRole,
     deleteUser,
-    getAllProfileFromDB
+    getAllProfileFromDB,
+    requestFriend,
+    acceptFriendRequest
 };

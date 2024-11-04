@@ -25,7 +25,7 @@ const userSchema = new Schema<TUser, UserModel>(
         profilePhoto: {
             type: String,
             required: true,
-            
+
         },
         needsPasswordChange: {
             type: Boolean,
@@ -51,9 +51,9 @@ const userSchema = new Schema<TUser, UserModel>(
             type: String,
             default: ''
         },
-        isPremium : {
-            type : Boolean,
-            default : false
+        isPremium: {
+            type: Boolean,
+            default: false
         },
         from: {
             type: String,
@@ -70,6 +70,22 @@ const userSchema = new Schema<TUser, UserModel>(
             type: String,
             required: true
         },
+        friendRequest: [
+            {
+                sender: { type: Schema.Types.ObjectId, ref: "User", required: true },
+                status: { type: String, enum: ["pending", "accepted", "declined"], default: "pending" },
+                senderProfilePhoto : {type : String, required : true},
+                senderName : {type : String, required : true}
+            }
+        ],
+        friend: [
+            {
+                id: { type: Schema.Types.ObjectId, ref: "User", required: true },
+                email: { type: String, required: true },
+                username: { type: String, required: true },
+                profilePhoto: { type: String },
+            }
+        ],
         followers: [{
             id: { type: mongoose.Schema.Types.ObjectId, ref: 'pet_care_user' },
             email: { type: String, required: true },

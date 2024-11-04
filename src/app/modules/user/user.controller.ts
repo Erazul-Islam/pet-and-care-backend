@@ -147,6 +147,74 @@ const getAllProfile = async (req: Request, res: Response) => {
     }
 }
 
+const sendFriendRequest = async (req:Request,res:Response) => {
+    const {senderId,receiverId} = req.body
+
+    try {
+        const result = await userService.requestFriend(senderId, receiverId);
+        res.status(200).json({
+            statusCode: 200,
+            status: 200,
+            success: true,
+            message: "Friend Request sent successfully",
+            data: result
+        })
+      } catch (error) {
+        console.log(error)
+      }
+}
+
+
+const acceptFrinedRequest = async (req:Request,res:Response) => {
+    const {userId,senderId} = req.body
+
+    try {
+        const result = await userService.acceptFriendRequest(userId, senderId);
+        res.status(200).json({
+            statusCode: 200,
+            status: 200,
+            success: true,
+            message: "Friend Request accepted successfully",
+            data: result
+        })
+      } catch (error) {
+        console.log(error)
+      }
+}
+
+const viewFriendRequest = async (req:Request,res:Response) => {
+    const userId = req.params.userId
+
+    try {
+        const result = await userService.viewFriendRequest(userId);
+        res.status(200).json({
+            statusCode: 200,
+            status: 200,
+            success: true,
+            message: "Friend Request viewed successfully",
+            data: result
+        })
+      } catch (error) {
+        console.log(error)
+      }
+}
+
+const viewFriend = async (req:Request,res:Response) => {
+    const userId = req.params.userId
+
+    try {
+        const result = await userService.viewFriend(userId);
+        res.status(200).json({
+            statusCode: 200,
+            status: 200,
+            success: true,
+            message: "Friends viewed successfully",
+            data: result
+        })
+      } catch (error) {
+        console.log(error)
+      }
+}
 
 export const userController = {
     signUpRegistration,
@@ -156,5 +224,9 @@ export const userController = {
     unfollowCoontroller,
     getUpdatedUserRole,
     deleteSingleUser,
-    getAllProfile
+    getAllProfile,
+    sendFriendRequest,
+    acceptFrinedRequest,
+    viewFriendRequest,
+    viewFriend
 }
