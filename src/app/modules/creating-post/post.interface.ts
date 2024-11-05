@@ -18,5 +18,5 @@ export type TPost = {
     isPublished: boolean,
     upvotes: TInfo[]
     downVotes: TInfo[],
-    // paymentInfo: TInfo[]
+    share : TInfo[]
 }

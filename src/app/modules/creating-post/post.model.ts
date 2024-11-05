@@ -56,7 +56,7 @@ const postSchema = new Schema<TPost>(
         },
         upvotes: [InfoSchema],
         downVotes: [InfoSchema],
-        // paymentInfo: [InfoSchema],
+        share : [InfoSchema],
         comments: [commentSchema]
     },
     {

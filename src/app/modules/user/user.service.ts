@@ -192,6 +192,9 @@ const acceptFriendRequest = async (userId: string, senderId: string) => {
     const user = await User.findById(userId)
     const sender = await User.findById(senderId)
 
+    console.log('user id',user)
+    console.log('sender id',senderId)
+
     if (!user || !sender) {
         throw new Error("User not found.");
     }

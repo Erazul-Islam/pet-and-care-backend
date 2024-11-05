@@ -289,6 +289,12 @@ const searchPost = async (searchTerm: string) => {
     return result;
 };
 
+const sharePost = async (postId:string) => {
+    const post = postModel.findById(postId)
+
+    console.log(post)
+}
+
 
 export const postService = {
     addPost,
@@ -302,5 +308,6 @@ export const postService = {
     unPublishPost,
     publishPost,
     getScrollAllPost,
-    searchPost
+    searchPost,
+    sharePost
 }
