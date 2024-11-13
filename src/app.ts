@@ -7,7 +7,7 @@ import notFound from './app/modules/middleware/notFound'
 const app : Application = express()
 
 const corsOptions = {
-    origin: ['http://localhost:3000'], 
+    origin: ['http://localhost:3000','https://petcareclient-phi.vercel.app'], 
     credentials: true,
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     allowedHeaders: 'Content-Type,Authorization' 

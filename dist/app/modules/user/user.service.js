@@ -153,6 +153,8 @@ const requestFriend = (senderId, receiverId) => __awaiter(void 0, void 0, void 0
 const acceptFriendRequest = (userId, senderId) => __awaiter(void 0, void 0, void 0, function* () {
     const user = yield user_model_1.User.findById(userId);
     const sender = yield user_model_1.User.findById(senderId);
+    console.log('user id', user);
+    console.log('sender id', senderId);
     if (!user || !sender) {
         throw new Error("User not found.");
     }

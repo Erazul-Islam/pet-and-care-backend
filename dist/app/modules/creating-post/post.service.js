@@ -204,6 +204,10 @@ const searchPost = (searchTerm) => __awaiter(void 0, void 0, void 0, function* (
     const result = yield post_model_1.postModel.find(query);
     return result;
 });
+const sharePost = (postId) => __awaiter(void 0, void 0, void 0, function* () {
+    const post = post_model_1.postModel.findById(postId);
+    console.log(post);
+});
 exports.postService = {
     addPost,
     getAllPost,
@@ -216,5 +220,6 @@ exports.postService = {
     unPublishPost,
     publishPost,
     getScrollAllPost,
-    searchPost
+    searchPost,
+    sharePost
 };
