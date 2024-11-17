@@ -24,7 +24,7 @@ const addEventController = catchAsync(async (req: Request, res: Response) => {
 
 const interestedEventController = catchAsync(async (req: Request, res: Response) => {
     const { eventId } = req.params
-    console.log(eventId)
+
 
     const token = req.headers.authorization?.split(" ")[1]
 
@@ -50,9 +50,24 @@ const interestedEventController = catchAsync(async (req: Request, res: Response)
     });
 })
 
+const EndEventController = catchAsync(async (req: Request, res: Response) => {
+    const { eventId } = req.params
+
+    const endEvent = await eventService.endEvent(eventId);
+
+    sendResponse(res, {
+        success: true,
+        status: 200,
+        message: "The event ended",
+        data: endEvent,
+        statusCode: 200,
+    });
+})
+
 
 export const eventController = {
     addEventController,
-    interestedEventController
+    interestedEventController,
+    EndEventController
 
 }

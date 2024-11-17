@@ -57,7 +57,17 @@ const interestedEvent = async (eventId: string, token: string) => {
     return result
 }
 
+const endEvent = async (eventId: string) => {
+    const result = eventModel.findOneAndUpdate(
+        { _id: eventId },
+        { $set: { "status": 'ended' } },
+        { new: true }
+    )
+    return result
+}
+
 export const eventService = {
     createEvent,
-    interestedEvent
+    interestedEvent,
+    endEvent
 }
