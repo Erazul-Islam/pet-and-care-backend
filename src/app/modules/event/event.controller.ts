@@ -22,6 +22,37 @@ const addEventController = catchAsync(async (req: Request, res: Response) => {
     })
 })
 
+const interestedEventController = catchAsync(async (req: Request, res: Response) => {
+    const { eventId } = req.params
+    console.log(eventId)
+
+    const token = req.headers.authorization?.split(" ")[1]
+
+    if (!token) {
+        return sendResponse(res, {
+            success: false,
+            status: 401,
+            message: "Unauthorized",
+            data: null,
+            statusCode: 401,
+        });
+    }
+
+
+    const interestedEvent = await eventService.interestedEvent(eventId, token as string);
+
+    sendResponse(res, {
+        success: true,
+        status: 200,
+        message: "Interested the event",
+        data: interestedEvent,
+        statusCode: 200,
+    });
+})
+
+
 export const eventController = {
-    addEventController
+    addEventController,
+    interestedEventController
+
 }

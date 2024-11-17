@@ -1,6 +1,6 @@
 import config from "../../config";
 import { User } from "../user/user.model";
-import { TEvent } from "./event.interface"
+import { IInterested, TEvent } from "./event.interface"
 import jwt from 'jsonwebtoken'
 import { eventModel } from "./event.model";
 
@@ -28,6 +28,36 @@ const createEvent = async (payload: TEvent, token: string) => {
 
 }
 
+const interestedEvent = async (eventId: string, token: string) => {
+    const decoded = jwt.verify(token, config.jwtAccessSecret as string)
+
+    if (typeof decoded === 'string' || !('email' in decoded)) {
+        throw new Error('Invalid token structure');
+    }
+
+    const finduser = await User.findOne({ email: decoded.email })
+
+    if (!finduser) {
+        throw new Error("User not found")
+    }
+
+    const interested: IInterested = {
+        id: finduser?._id,
+        email: finduser?.email,
+        username: finduser?.name,
+        profilePhoto: finduser?.profilePhoto
+    }
+
+    const result = await eventModel.findByIdAndUpdate(eventId, { $push: { interested: interested } }, { new: true })
+
+    if (!result) {
+        throw new Error("Post not found");
+    }
+
+    return result
+}
+
 export const eventService = {
-    createEvent
+    createEvent,
+    interestedEvent
 }
