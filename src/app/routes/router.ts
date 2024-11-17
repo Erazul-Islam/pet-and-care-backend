@@ -4,6 +4,7 @@ import { authRoute } from "../modules/auth/auth.route";
 import { postRoute } from "../modules/creating-post/post.route";
 import { payemtRoute } from "../modules/payment/payment.route";
 import { MeilisearchRoutes } from "../modules/meilisearch/meilisearch.route";
+import { eventRoute } from "../modules/event/event.route";
 
 const router = Router()
 
@@ -28,6 +29,10 @@ const moduleRoutes = [
     {
         path: '/payment',
         route: payemtRoute
+    },
+    {
+        path: '/event',
+        route: eventRoute
     }
 ]
 
