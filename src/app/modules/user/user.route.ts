@@ -17,7 +17,7 @@ router.post(
 router.get('/me',  userController.getProfile)
 router.get('/users/:userId',  userController.getSingleProfile)
 
-router.put('/me',  userController.getUpdatedUser)
+router.put('/me', multerUpload.single("profilePhoto") ,userController.getUpdatedUser)
 
 router.post('/follow/:id',userController.followConntroller)
 

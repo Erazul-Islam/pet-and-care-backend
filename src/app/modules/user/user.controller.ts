@@ -57,10 +57,12 @@ const getSingleProfile = async (req: Request, res: Response) => {
 };
 
 
-
 const getUpdatedUser = async (req: Request, res: Response) => {
-    const token = req.headers.authorization?.split(' ')[1]
+    const token = req.headers.authorization?.split(' ')[1]  
     const updatedData = req.body
+    if (req.file) {
+        updatedData.profilePhoto = req.file.path;
+    }
 
     try {
         const updatedUser = await userService.getUpdatedUser(token as string, updatedData)
