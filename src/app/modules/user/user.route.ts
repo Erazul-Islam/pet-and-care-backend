@@ -2,12 +2,14 @@ import express from 'express'
 import { userController } from './user.controller';
 import { UserValidation } from './user.validation';
 import validateRequest from '../middleware/validateRequest';
+import { multerUpload } from '../../config/multer.config';
 
 
 const router = express.Router();
 
 router.post(
     '/register',
+    multerUpload.single("profilePhoto"),
     validateRequest(UserValidation.userValidationSchema),
     userController.signUpRegistration,
 );
