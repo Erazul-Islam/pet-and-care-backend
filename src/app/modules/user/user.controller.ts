@@ -6,13 +6,6 @@ import config from "../../config";
 import jwt, { JwtPayload } from 'jsonwebtoken'
 
 const signUpRegistration = catchAsync(async (req: Request, res: Response) => {
-
-    // const data = req.body
-    // if(req.file){
-    //     data.profilePhoto = req.file?.path
-    // }
-
-    // const result = await userService.signUp(data)
     const result = await userService.signUp({
         ...JSON.parse(req.body.data),
         profilePhoto : req.file?.path

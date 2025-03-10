@@ -37,13 +37,14 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc",
-    "start:dev": "ts-node-dev --respawn --transpile-only src/server.ts",
+    "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
     "lint": "npx eslint src --ignore-pattern .ts",
     "lint:fix": "npx eslint src --fix",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "",
+  "author": "Erazul Islam <erazul89@gmail.com>",
   "license": "ISC",
-  "description": ""
+  "description": "",
+  "repository": "clear"
 }

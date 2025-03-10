@@ -11,7 +11,6 @@ import { sendEmail } from "../../utils/sendEmail"
 const loginUser = async (payload: TLoginUser) => {
 
     const user = await User.isUSerExistByCustomEmial(payload.email)
-    console.log(user)
 
     if (!user) {
         throw new AppError(httpStatus.NOT_FOUND, 'This user is not found')
