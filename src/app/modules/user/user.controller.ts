@@ -6,10 +6,7 @@ import config from "../../config";
 import jwt, { JwtPayload } from 'jsonwebtoken'
 
 const signUpRegistration = catchAsync(async (req: Request, res: Response) => {
-    const result = await userService.signUp({
-        ...JSON.parse(req.body.data),
-        profilePhoto : req.file?.path
-    })
+    const result = await userService.signUp(req.body)
     sendResponse(res, {
         statusCode: 201,
         status: 201,
@@ -66,7 +63,6 @@ const getUpdatedUser = async (req: Request, res: Response) => {
 
     try {
         const updatedUser = await userService.getUpdatedUser(token as string, updatedData)
-        console.log(updatedUser)
 
         res.status(200).json({
             success: true,
