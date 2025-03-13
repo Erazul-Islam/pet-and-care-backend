@@ -94,22 +94,6 @@ const editCommentController = catchAsync(async (req: Request, res: Response) => 
     });
 })
 
-
-const getAllScrollPostFromDB = async (req: Request, res: Response) => {
-    try {
-
-        const result = await postService.getScrollAllPost()
-
-        res.status(200).json({
-            statusCode: 200,
-            success: true,
-            message: "Post retrived successfully",
-            data: result,
-        })
-    } catch (err) {
-        console.log(err)
-    }
-}
 const getAllPostFromDB = async (req: Request, res: Response) => {
     try {
 
@@ -266,7 +250,6 @@ export const postController = {
     downVoteController,
     unPublishController,
     PublishController,
-    getAllScrollPostFromDB,
     searchProductsController,
     getAllMyPostsController
 }

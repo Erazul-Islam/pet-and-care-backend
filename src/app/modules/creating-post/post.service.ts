@@ -56,11 +56,7 @@ const getMyPostsByUserId = async (token:string) => {
 
 }
 
-const getScrollAllPost = async () => {
 
-    const result = await postModel.find()
-    return result
-}
 
 const addComment = async (postId: string, text: string, token: string) => {
     const decoded = jwt.verify(token, config.jwtAccessSecret as string)
@@ -314,7 +310,6 @@ export const postService = {
     downvotePost,
     unPublishPost,
     publishPost,
-    getScrollAllPost,
     searchPost,
     getMyPostsByUserId,
     sharePost
