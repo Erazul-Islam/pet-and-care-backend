@@ -17,5 +17,6 @@ router.post('/pet-post/:postId/downvote', postController.downVoteController)
 router.patch('/pet-post/:postId/unpublish', postController.unPublishController)
 router.patch('/pet-post/:postId/publish', postController.PublishController)
 router.get('/search', postController.searchProductsController)
+router.get('/my-posts',postController.getAllMyPostsController)
 
 export const postRoute = router

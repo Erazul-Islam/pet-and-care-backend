@@ -10,14 +10,26 @@ const addPostController = catchAsync(async (req: Request, res: Response) => {
 
     const result = await postService.addPost(req.body, token as string)
 
-    console.log(result)
-
     sendResponse(res, {
         success: true,
         status: 200,
         message: 'Post Added successfully',
         data: result,
         statusCode: 200
+    })
+})
+
+const getAllMyPostsController = catchAsync(async(req:Request,res:Response) => {
+    const token = req.headers.authorization?.split(' ')[1]
+
+    const result = await postService.getMyPostsByUserId(token as string)
+
+    sendResponse(res, {
+        success : true,
+        status : 200,
+        message : 'Posts retrived successfully',
+        data : result,
+        statusCode : 200
     })
 })
 
@@ -113,25 +125,6 @@ const getAllPostFromDB = async (req: Request, res: Response) => {
         console.log(err)
     }
 }
-// const getAllPostFromDB = async (req: Request, res: Response) => {
-//     try {
-
-//         const { page = 1, limit = 5 } = req.query
-
-//         const result = await postService.getAllPost(page as number, limit as number)
-//         const hasMore = result.length === limit
-
-//         res.status(200).json({
-//             statusCode: 200,
-//             success: true,
-//             message: "Post retrived successfully",
-//             data: result,
-//             hasMore
-//         })
-//     } catch (err) {
-//         console.log(err)
-//     }
-// }
 
 const deleteCommentController = catchAsync(async (req: Request, res: Response) => {
     const { postId, commentId } = req.params;
@@ -274,5 +267,6 @@ export const postController = {
     unPublishController,
     PublishController,
     getAllScrollPostFromDB,
-    searchProductsController
+    searchProductsController,
+    getAllMyPostsController
 }

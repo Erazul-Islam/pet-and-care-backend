@@ -33,20 +33,27 @@ const addPost = async (payload: TPost, token: string) => {
 
     await addDocumentToIndex(result, 'posts')
 
-    // console.log("result",result)
-
     return result
 }
-
-// const getAllPost = async (page = 1, limit = 5) => {
-//     const skip = (page -1) * limit
-//     const result = await postModel.find().skip(skip).limit(limit).populate("comments.userId", "name profilePhoto")
-//     return result
-// }
 const getAllPost = async () => {
 
     const result = await postModel.find().populate("comments.userId", "name profilePhoto")
     return result
+}
+
+const getMyPostsByUserId = async (token:string) => {
+
+    const decoded = jwt.verify(token, config.jwtAccessSecret as string)
+
+    if (typeof decoded === 'string' || !('email' in decoded)) {
+        throw new Error('Invalid token structure');
+    }
+
+    const user = await User.findOne({ email: decoded.email })
+    const userId = user?._id
+    const result = await postModel.find({userId : userId})
+    return result
+
 }
 
 const getScrollAllPost = async () => {
@@ -289,10 +296,10 @@ const searchPost = async (searchTerm: string) => {
     return result;
 };
 
-const sharePost = async (postId:string) => {
+const sharePost = async (postId: string) => {
     const post = postModel.findById(postId)
 
-    console.log(post)
+    return post
 }
 
 
@@ -309,5 +316,6 @@ export const postService = {
     publishPost,
     getScrollAllPost,
     searchPost,
+    getMyPostsByUserId,
     sharePost
 }
