@@ -17,5 +17,6 @@ router.patch('/pet-post/:postId/unpublish', postController.unPublishController)
 router.patch('/pet-post/:postId/publish', postController.PublishController)
 router.get('/search', postController.searchProductsController)
 router.get('/my-posts',postController.getAllMyPostsController)
+router.get('/pagenated-posts',postController.getPaginatedPostsFromDB)
 
 export const postRoute = router

@@ -36,9 +36,31 @@ const addPost = async (payload: TPost, token: string) => {
     return result
 }
 const getAllPost = async () => {
-
-    const result = await postModel.find().populate("comments.userId", "name profilePhoto")
+    const result = await postModel.find()
     return result
+}
+
+const getPaginatedPosts = async (page = 1, pageSize = 1) => {
+    try {
+        const skip = (page - 1) * pageSize
+        const posts = await postModel.find().skip(skip).limit(pageSize)
+
+        const totalPosts = await postModel.countDocuments()
+
+        const totalPages = Math.ceil(totalPosts/pageSize)
+
+        return {
+            posts,
+            totalPosts,
+            totalPages,
+            currentPage : page,
+            pageSize
+        }
+    }
+    catch (err){
+        console.error(err);
+        throw new Error('Failed to fetch posts with pagination');
+    }
 }
 
 const getMyPostsByUserId = async (token:string) => {
@@ -312,5 +334,6 @@ export const postService = {
     publishPost,
     searchPost,
     getMyPostsByUserId,
-    sharePost
+    sharePost,
+    getPaginatedPosts
 }

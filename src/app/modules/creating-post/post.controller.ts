@@ -110,6 +110,26 @@ const getAllPostFromDB = async (req: Request, res: Response) => {
     }
 }
 
+const getPaginatedPostsFromDB = async (req:Request,res:Response) => {
+    const page = parseInt(req.query.page as string) || 1
+    const pageSize = parseInt(req.query.pageSize as string) || 1
+
+    const result = await postService.getPaginatedPosts(page,pageSize)
+
+    res.status(200).json({
+        statusCode: 200,
+        success: true,
+        message: "Posts retrieved successfully",
+        data: result.posts,
+        pagination: {
+            totalPosts: result.totalPosts,
+            totalPages: result.totalPages,
+            currentPage: result.currentPage,
+            pageSize: result.pageSize
+        }
+    });
+}
+
 const deleteCommentController = catchAsync(async (req: Request, res: Response) => {
     const { postId, commentId } = req.params;
     const token = req.headers.authorization?.split(" ")[1];
@@ -251,5 +271,6 @@ export const postController = {
     unPublishController,
     PublishController,
     searchProductsController,
-    getAllMyPostsController
+    getAllMyPostsController,
+    getPaginatedPostsFromDB
 }
