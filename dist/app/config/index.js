@@ -17,5 +17,8 @@ exports.default = {
     meilisearch_Host: process.env.meilisearch_host,
     meilisearch_api_key: process.env.meilisearch_api_key,
     nodeEnv: process.env.NODE_ENV,
-    reset_link: process.env.reset_Link
+    reset_link: process.env.reset_Link,
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_Api_Key,
+    secret_key: process.env.CLOUDINARY_Api_Secret
 };

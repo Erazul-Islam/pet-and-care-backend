@@ -20,11 +20,22 @@ const addPostController = (0, catchAsync_1.default)((req, res) => __awaiter(void
     var _a;
     const token = (_a = req.headers.authorization) === null || _a === void 0 ? void 0 : _a.split(' ')[1];
     const result = yield post_service_1.postService.addPost(req.body, token);
-    console.log(result);
     (0, sendResponse_1.default)(res, {
         success: true,
         status: 200,
         message: 'Post Added successfully',
+        data: result,
+        statusCode: 200
+    });
+}));
+const getAllMyPostsController = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a;
+    const token = (_a = req.headers.authorization) === null || _a === void 0 ? void 0 : _a.split(' ')[1];
+    const result = yield post_service_1.postService.getMyPostsByUserId(token);
+    (0, sendResponse_1.default)(res, {
+        success: true,
+        status: 200,
+        message: 'Posts retrived successfully',
         data: result,
         statusCode: 200
     });
@@ -77,20 +88,6 @@ const editCommentController = (0, catchAsync_1.default)((req, res) => __awaiter(
         statusCode: 200,
     });
 }));
-const getAllScrollPostFromDB = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const result = yield post_service_1.postService.getScrollAllPost();
-        res.status(200).json({
-            statusCode: 200,
-            success: true,
-            message: "Post retrived successfully",
-            data: result,
-        });
-    }
-    catch (err) {
-        console.log(err);
-    }
-});
 const getAllPostFromDB = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const result = yield post_service_1.postService.getAllPost();
@@ -105,22 +102,23 @@ const getAllPostFromDB = (req, res) => __awaiter(void 0, void 0, void 0, functio
         console.log(err);
     }
 });
-// const getAllPostFromDB = async (req: Request, res: Response) => {
-//     try {
-//         const { page = 1, limit = 5 } = req.query
-//         const result = await postService.getAllPost(page as number, limit as number)
-//         const hasMore = result.length === limit
-//         res.status(200).json({
-//             statusCode: 200,
-//             success: true,
-//             message: "Post retrived successfully",
-//             data: result,
-//             hasMore
-//         })
-//     } catch (err) {
-//         console.log(err)
-//     }
-// }
+const getPaginatedPostsFromDB = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const page = parseInt(req.query.page) || 1;
+    const pageSize = parseInt(req.query.pageSize) || 1;
+    const result = yield post_service_1.postService.getPaginatedPosts(page, pageSize);
+    res.status(200).json({
+        statusCode: 200,
+        success: true,
+        message: "Posts retrieved successfully",
+        data: result.posts,
+        pagination: {
+            totalPosts: result.totalPosts,
+            totalPages: result.totalPages,
+            currentPage: result.currentPage,
+            pageSize: result.pageSize
+        }
+    });
+});
 const deleteCommentController = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
     const { postId, commentId } = req.params;
@@ -243,6 +241,7 @@ exports.postController = {
     downVoteController,
     unPublishController,
     PublishController,
-    getAllScrollPostFromDB,
-    searchProductsController
+    searchProductsController,
+    getAllMyPostsController,
+    getPaginatedPostsFromDB
 };

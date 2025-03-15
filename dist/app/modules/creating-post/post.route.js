@@ -11,7 +11,6 @@ const post_controller_1 = require("./post.controller");
 const router = express_1.default.Router();
 router.post('/pet-post', (0, validateRequest_1.default)(post_validation_1.postValidation.postValidationSchema), post_controller_1.postController.addPostController);
 router.get('/pet-post', post_controller_1.postController.getAllPostFromDB);
-router.get('/scroll', post_controller_1.postController.getAllScrollPostFromDB);
 router.post('/pet-post/:postId/comments', post_controller_1.postController.addCommentController);
 router.put('/pet-post/:postId/comments/:commentId', post_controller_1.postController.editCommentController);
 router.delete('/pet-post/:postId/comments/:commentId', post_controller_1.postController.deleteCommentController);
@@ -21,4 +20,6 @@ router.post('/pet-post/:postId/downvote', post_controller_1.postController.downV
 router.patch('/pet-post/:postId/unpublish', post_controller_1.postController.unPublishController);
 router.patch('/pet-post/:postId/publish', post_controller_1.postController.PublishController);
 router.get('/search', post_controller_1.postController.searchProductsController);
+router.get('/my-posts', post_controller_1.postController.getAllMyPostsController);
+router.get('/paginated-posts', post_controller_1.postController.getPaginatedPostsFromDB);
 exports.postRoute = router;

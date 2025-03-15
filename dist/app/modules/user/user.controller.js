@@ -61,9 +61,11 @@ const getUpdatedUser = (req, res) => __awaiter(void 0, void 0, void 0, function*
     var _a;
     const token = (_a = req.headers.authorization) === null || _a === void 0 ? void 0 : _a.split(' ')[1];
     const updatedData = req.body;
+    if (req.file) {
+        updatedData.profilePhoto = req.file.path;
+    }
     try {
         const updatedUser = yield user_service_1.userService.getUpdatedUser(token, updatedData);
-        console.log(updatedUser);
         res.status(200).json({
             success: true,
             message: "user updated successfully!",

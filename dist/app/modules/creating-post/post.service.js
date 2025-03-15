@@ -35,20 +35,39 @@ const addPost = (payload, token) => __awaiter(void 0, void 0, void 0, function* 
     payload.comments = [];
     const result = yield post_model_1.postModel.create(payload);
     yield (0, meilisearch_1.addDocumentToIndex)(result, 'posts');
-    // console.log("result",result)
     return result;
 });
-// const getAllPost = async (page = 1, limit = 5) => {
-//     const skip = (page -1) * limit
-//     const result = await postModel.find().skip(skip).limit(limit).populate("comments.userId", "name profilePhoto")
-//     return result
-// }
 const getAllPost = () => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield post_model_1.postModel.find().populate("comments.userId", "name profilePhoto");
+    const result = yield post_model_1.postModel.find();
     return result;
 });
-const getScrollAllPost = () => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield post_model_1.postModel.find();
+const getPaginatedPosts = (...args_1) => __awaiter(void 0, [...args_1], void 0, function* (page = 1, pageSize = 1) {
+    try {
+        const skip = (page - 1) * pageSize;
+        const posts = yield post_model_1.postModel.find().skip(skip).limit(pageSize);
+        const totalPosts = yield post_model_1.postModel.countDocuments();
+        const totalPages = Math.ceil(totalPosts / pageSize);
+        return {
+            posts,
+            totalPosts,
+            totalPages,
+            currentPage: page,
+            pageSize
+        };
+    }
+    catch (err) {
+        console.error(err);
+        throw new Error('Failed to fetch posts with pagination');
+    }
+});
+const getMyPostsByUserId = (token) => __awaiter(void 0, void 0, void 0, function* () {
+    const decoded = jsonwebtoken_1.default.verify(token, config_1.default.jwtAccessSecret);
+    if (typeof decoded === 'string' || !('email' in decoded)) {
+        throw new Error('Invalid token structure');
+    }
+    const user = yield user_model_1.User.findOne({ email: decoded.email });
+    const userId = user === null || user === void 0 ? void 0 : user._id;
+    const result = yield post_model_1.postModel.find({ userId: userId });
     return result;
 });
 const addComment = (postId, text, token) => __awaiter(void 0, void 0, void 0, function* () {
@@ -206,7 +225,7 @@ const searchPost = (searchTerm) => __awaiter(void 0, void 0, void 0, function* (
 });
 const sharePost = (postId) => __awaiter(void 0, void 0, void 0, function* () {
     const post = post_model_1.postModel.findById(postId);
-    console.log(post);
+    return post;
 });
 exports.postService = {
     addPost,
@@ -219,7 +238,8 @@ exports.postService = {
     downvotePost,
     unPublishPost,
     publishPost,
-    getScrollAllPost,
     searchPost,
-    sharePost
+    getMyPostsByUserId,
+    sharePost,
+    getPaginatedPosts
 };

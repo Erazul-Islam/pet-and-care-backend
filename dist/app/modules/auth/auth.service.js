@@ -23,7 +23,6 @@ const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const sendEmail_1 = require("../../utils/sendEmail");
 const loginUser = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     const user = yield user_model_1.User.isUSerExistByCustomEmial(payload.email);
-    console.log(user);
     if (!user) {
         throw new AppError_1.default(http_status_1.default.NOT_FOUND, 'This user is not found');
     }
