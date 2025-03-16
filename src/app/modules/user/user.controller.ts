@@ -16,6 +16,26 @@ const signUpRegistration = catchAsync(async (req: Request, res: Response) => {
     })
 })
 
+const getPaginatedPostsFromDB = async (req:Request,res:Response) => {
+    const page = parseInt(req.query.page as string) || 1
+    const pageSize = parseInt(req.query.pageSize as string) || 1
+
+    const result = await userService.getPaginatedUserFromDB(page,pageSize)
+
+    res.status(200).json({
+        statusCode: 200,
+        success: true,
+        message: "Users retrieved successfully",
+        data: result.users,
+        pagination: {
+            totalPosts: result.totalUsers,
+            totalPages: result.totalPages,
+            currentPage: result.currentPage,
+            pageSize: result.pageSize
+        }
+    });
+}
+
 const getProfile = async (req: Request, res: Response) => {
     try {
 
@@ -252,5 +272,6 @@ export const userController = {
     acceptFrinedRequest,
     viewFriendRequest,
     viewFriend,
-    getSingleProfile
+    getSingleProfile,
+    getPaginatedPostsFromDB
 }

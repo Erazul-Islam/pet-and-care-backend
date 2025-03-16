@@ -33,5 +33,6 @@ router.post('/accept', userController.acceptFrinedRequest)
 
 router.get('/:userId/pending', userController.viewFriendRequest)
 router.get('/:userId/friend', userController.viewFriend)
+router.get('/paginated-users', userController.getPaginatedPostsFromDB)
 
 export const userRoute = router
