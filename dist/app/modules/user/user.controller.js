@@ -28,6 +28,23 @@ const signUpRegistration = (0, catchAsync_1.default)((req, res) => __awaiter(voi
         data: result
     });
 }));
+const getPaginatedPostsFromDB = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const page = parseInt(req.query.page) || 1;
+    const pageSize = parseInt(req.query.pageSize) || 1;
+    const result = yield user_service_1.userService.getPaginatedUserFromDB(page, pageSize);
+    res.status(200).json({
+        statusCode: 200,
+        success: true,
+        message: "Users retrieved successfully",
+        data: result.users,
+        pagination: {
+            totalPosts: result.totalUsers,
+            totalPages: result.totalPages,
+            currentPage: result.currentPage,
+            pageSize: result.pageSize
+        }
+    });
+});
 const getProfile = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
     try {
@@ -232,5 +249,6 @@ exports.userController = {
     acceptFrinedRequest,
     viewFriendRequest,
     viewFriend,
-    getSingleProfile
+    getSingleProfile,
+    getPaginatedPostsFromDB
 };

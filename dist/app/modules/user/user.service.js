@@ -202,12 +202,30 @@ const deleteUser = (id) => __awaiter(void 0, void 0, void 0, function* () {
 const getAllProfileFromDB = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const result = yield user_model_1.User.find();
-        console.log(result);
         return result;
     }
     catch (err) {
         console.error("Error retrieving profiles:", err);
         throw err;
+    }
+});
+const getPaginatedUserFromDB = (...args_1) => __awaiter(void 0, [...args_1], void 0, function* (page = 1, pageSize = 1) {
+    try {
+        const skip = (page - 1) * pageSize;
+        const users = yield user_model_1.User.find().skip(skip).limit(pageSize);
+        const totalUsers = yield user_model_1.User.countDocuments();
+        const totalPages = Math.ceil(totalUsers / pageSize);
+        return {
+            users,
+            totalUsers,
+            totalPages,
+            currentPage: page,
+            pageSize
+        };
+    }
+    catch (err) {
+        console.log(err);
+        throw new Error('Something went wrong');
     }
 });
 const getSingleProfile = (id) => __awaiter(void 0, void 0, void 0, function* () {
@@ -227,5 +245,6 @@ exports.userService = {
     acceptFriendRequest,
     viewFriendRequest,
     viewFriend,
-    getSingleProfile
+    getSingleProfile,
+    getPaginatedUserFromDB
 };

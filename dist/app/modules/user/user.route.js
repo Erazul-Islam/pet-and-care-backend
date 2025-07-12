@@ -22,4 +22,5 @@ router.post('/send', user_controller_1.userController.sendFriendRequest);
 router.post('/accept', user_controller_1.userController.acceptFrinedRequest);
 router.get('/:userId/pending', user_controller_1.userController.viewFriendRequest);
 router.get('/:userId/friend', user_controller_1.userController.viewFriend);
+router.get('/paginated-users', user_controller_1.userController.getPaginatedPostsFromDB);
 exports.userRoute = router;

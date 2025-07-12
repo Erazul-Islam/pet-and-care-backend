@@ -20,7 +20,6 @@ const getAllPosts = (limit, searchTerm) => __awaiter(void 0, void 0, void 0, fun
         throw new Error("MeiliSearch client or index not found");
     }
     const searchString = searchTerm || "";
-    console.log(searchString);
     try {
         const result = yield index.search(searchString, { limit });
         console.log(result);

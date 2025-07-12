@@ -17,9 +17,11 @@ const catchAsync_1 = __importDefault(require("../../utils/catchAsync"));
 const post_service_1 = require("./post.service");
 const sendResponse_1 = __importDefault(require("../../utils/sendResponse"));
 const addPostController = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    var _a;
+    var _a, _b;
     const token = (_a = req.headers.authorization) === null || _a === void 0 ? void 0 : _a.split(' ')[1];
-    const result = yield post_service_1.postService.addPost(req.body, token);
+    const photoUrl = (_b = req.file) === null || _b === void 0 ? void 0 : _b.path;
+    const payload = Object.assign(Object.assign({}, req.body), { photo: photoUrl });
+    const result = yield post_service_1.postService.addPost(payload, token);
     (0, sendResponse_1.default)(res, {
         success: true,
         status: 200,
