@@ -10,7 +10,6 @@ const getAllPosts = async (limit:number,searchTerm : string) => {
     }
 
     const searchString = searchTerm || ""
-    console.log(searchString)
 
     try {
         const result = await index.search(searchString, {limit})

@@ -2,10 +2,11 @@ import express from 'express'
 import validateRequest from '../middleware/validateRequest'
 import { postValidation } from './post.validation'
 import { postController } from './post.controller'
+import { multerUpload } from '../../config/multer.config'
 
 const router = express.Router()
 
-router.post('/pet-post', validateRequest(postValidation.postValidationSchema), postController.addPostController)
+router.post('/pet-post', validateRequest(postValidation.postValidationSchema), multerUpload.single('photo') ,postController.addPostController)
 router.get('/pet-post', postController.getAllPostFromDB)
 router.post('/pet-post/:postId/comments', postController.addCommentController)
 router.put('/pet-post/:postId/comments/:commentId', postController.editCommentController)

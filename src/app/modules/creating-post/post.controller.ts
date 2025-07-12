@@ -8,7 +8,14 @@ const addPostController = catchAsync(async (req: Request, res: Response) => {
 
     const token = req.headers.authorization?.split(' ')[1];
 
-    const result = await postService.addPost(req.body, token as string)
+    const photoUrl = req.file?.path
+    
+    const payload = {
+        ...req.body,
+        photo : photoUrl
+    }
+
+    const result = await postService.addPost(payload, token as string)
 
     sendResponse(res, {
         success: true,
