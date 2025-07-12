@@ -64,11 +64,9 @@ const userSchema = new Schema<TUser, UserModel>(
         },
         mobileNumber: {
             type: String,
-            required: true
         },
         address: {
             type: String,
-            required: true
         },
         friendRequest: [
             {

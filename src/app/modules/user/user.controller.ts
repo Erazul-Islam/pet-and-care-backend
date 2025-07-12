@@ -6,7 +6,15 @@ import config from "../../config";
 import jwt, { JwtPayload } from 'jsonwebtoken'
 
 const signUpRegistration = catchAsync(async (req: Request, res: Response) => {
-    const result = await userService.signUp(req.body)
+
+    const photoUrl = req.file?.path
+
+    const payload = {
+        ...req.body,
+        profilePhoto : photoUrl
+    }
+
+    const result = await userService.signUp(payload)
     sendResponse(res, {
         statusCode: 201,
         status: 201,

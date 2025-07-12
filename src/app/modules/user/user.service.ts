@@ -78,7 +78,7 @@ const followUser = async (currentUserId: string, targetUserId: string) => {
         await currentUser.save();
     }
 
-    // Check if current user is already a follower
+
     if (!targetUser.followers.some(user => user.id === currentUserId)) {
         targetUser.followers.push({
             id: currentUserId,
@@ -98,33 +98,29 @@ const unfollowUser = async (currentUserId: string, targetUserId: string) => {
     }
 
     const currentUser = await User.findById(currentUserId);
-    console.log("Current User:", currentUser);
     const targetUser = await User.findById(targetUserId);
-    console.log("Target User:", targetUser);
 
     if (!currentUser || !targetUser) {
         throw new Error('User not found');
     }
 
-    // Check if currentUser is actually following the targetUser
+
     const isFollowing = currentUser.following.some(user => user.id.toString() === targetUserId);
     if (!isFollowing) {
         throw new Error('You are not following this user');
     }
 
-    // Remove targetUserId from currentUser's following array
+
     currentUser.following = currentUser.following.filter(
         (user) => user.id.toString() !== targetUserId
     );
     await currentUser.save();
-    console.log("Updated Following:", currentUser.following);
 
-    // Remove currentUserId from targetUser's followers array
+
     targetUser.followers = targetUser.followers.filter(
         (user) => user.id.toString() !== currentUserId
     );
     await targetUser.save();
-    console.log("Updated Followers:", targetUser.followers);
 
     return { message: 'Successfully unfollowed the user' };
 };
